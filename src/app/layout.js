@@ -1,13 +1,16 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import Navbar from "@/components/Navigation/Navbar";
+import Footer from "@/components/Footer/Footer";
+import { ThemeProvider } from "next-themes";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+const rubikSans = localFont({
+  src: "./fonts/Rubik-VariableFont_wght.ttf",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
+const rubikMono = localFont({
+  src: "./fonts/Rubik-VariableFont_wght.ttf",
   variable: "--font-geist-mono",
   weight: "100 900",
 });
@@ -19,11 +22,15 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${rubikSans.variable} ${rubikMono.variable} antialiased`}
       >
-        {children}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Navbar />
+          {children}
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
