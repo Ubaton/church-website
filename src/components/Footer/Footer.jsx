@@ -10,17 +10,17 @@ const Footer = () => {
             &copy; {new Date().getFullYear()} Tembisa Independent Baptist. All
             rights reserved.
           </p>
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <Link
               href="/privacy"
-              className="text-gray-400 hover:text-white mr-4"
+              className="text-zinc-400 hover:text-white mr-4"
             >
               Privacy Policy
             </Link>
-            <Link href="/terms" className="text-gray-400 hover:text-white">
+            <Link href="/terms" className="text-zinc-400 hover:text-white">
               Terms of Service
             </Link>
-          </div>
+          </div> */}
         </div>
       </footer>
     </div>
