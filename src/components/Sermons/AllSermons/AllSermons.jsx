@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -24,74 +24,33 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-
-const sermons = [
-  {
-    id: 1,
-    title: "The Power of Faith",
-    pastor: "Pastor John Doe",
-    date: "June 4, 2024",
-    category: "Faith",
-  },
-  {
-    id: 2,
-    title: "Living with Purpose",
-    pastor: "Pastor Jane Smith",
-    date: "May 28, 2024",
-    category: "Purpose",
-  },
-  {
-    id: 3,
-    title: "The Grace of Forgiveness",
-    pastor: "Pastor John Doe",
-    date: "May 21, 2024",
-    category: "Forgiveness",
-  },
-  {
-    id: 4,
-    title: "Walking in Love",
-    pastor: "Pastor Jane Smith",
-    date: "May 14, 2024",
-    category: "Love",
-  },
-  {
-    id: 5,
-    title: "Overcoming Adversity",
-    pastor: "Pastor John Doe",
-    date: "May 7, 2024",
-    category: "Perseverance",
-  },
-  {
-    id: 6,
-    title: "The Power of Prayer",
-    pastor: "Pastor Jane Smith",
-    date: "April 30, 2024",
-    category: "Prayer",
-  },
-  {
-    id: 7,
-    title: "Understanding God's Will",
-    pastor: "Pastor John Doe",
-    date: "April 23, 2024",
-    category: "Guidance",
-  },
-  {
-    id: 8,
-    title: "The Fruit of the Spirit",
-    pastor: "Pastor Jane Smith",
-    date: "April 16, 2024",
-    category: "Spiritual Growth",
-  },
-];
+import { db } from "../../../firebase/FirebaseConfig";
+import { collection, getDocs } from "firebase/firestore";
 
 export default function AllSermons({
   onSearch = () => {},
   onCategoryChange = () => {},
 }) {
+  const [sermons, setSermons] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
   const sermonsPerPage = 5;
+
+  useEffect(() => {
+    const fetchSermons = async () => {
+      const querySnapshot = await getDocs(collection(db, "sermons"));
+      const sermonsList = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setSermons(sermonsList);
+    };
+
+    fetchSermons();
+  }, []);
 
   const handleSearchChange = (e) => {
     const term = e.target.value;
@@ -120,6 +79,91 @@ export default function AllSermons({
   const totalPages = Math.ceil(filteredSermons.length / sermonsPerPage);
 
   const categories = [...new Set(sermons.map((sermon) => sermon.category))];
+
+  const handleListen = async (audioUrl, title) => {
+    try {
+      // Stop any currently playing audio
+      if (window.currentAudio) {
+        window.currentAudio.pause();
+        window.currentAudio.currentTime = 0;
+      }
+
+      // Create new audio instance
+      const audio = new Audio(audioUrl);
+      window.currentAudio = audio;
+
+      // Add error handling
+      audio.onerror = (error) => {
+        console.error("Error loading audio:", error);
+        alert(
+          "Sorry, there was an error playing the sermon. Please try downloading instead."
+        );
+      };
+
+      // Add loading state if needed
+      setIsLoading(true);
+
+      await audio.play();
+
+      // Remove loading state if needed
+      setIsLoading(false);
+
+      console.log(`Now playing: ${title}`);
+    } catch (error) {
+      console.error("Error playing audio:", error);
+      alert(
+        "Sorry, there was an error playing the sermon. Please try downloading instead."
+      );
+      // Reset loading state if needed
+      setIsLoading(false);
+    }
+  };
+
+  const handleDownload = async (audioUrl, title) => {
+    try {
+      // Show loading state to user
+      setIsDownloading(true);
+
+      const response = await fetch(audioUrl);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      // Get the file type from the response headers or default to mp3
+      const contentType = response.headers.get("content-type") || "audio/mpeg";
+      const fileExtension = contentType.includes("mpeg") ? "mp3" : "m4a";
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      // Create a sanitized filename
+      const sanitizedTitle = title
+        ? title.replace(/[^a-z0-9]/gi, "_").toLowerCase()
+        : "sermon";
+      const filename = `${sanitizedTitle}.${fileExtension}`;
+
+      // Create and trigger download
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+
+      // Cleanup
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      // Reset loading state
+      setIsDownloading(false);
+    } catch (error) {
+      console.error("Error downloading the file:", error);
+      alert(
+        "Sorry, there was an error downloading the sermon. Please try again later."
+      );
+      // Reset loading state
+      setIsDownloading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-zinc-900">
@@ -175,11 +219,21 @@ export default function AllSermons({
                   <span>{sermon.date}</span>
                 </div>
                 <div className="flex space-x-2">
-                  <Button variant="outline" size="sm">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleListen(sermon.audioUrl, sermon.title)}
+                  >
                     <Play className="h-4 w-4 mr-2" />
                     Listen
                   </Button>
-                  <Button variant="outline" size="sm">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() =>
+                      handleDownload(sermon.audioUrl, sermon.title)
+                    }
+                  >
                     <Download className="h-4 w-4 mr-2" />
                     Download
                   </Button>
