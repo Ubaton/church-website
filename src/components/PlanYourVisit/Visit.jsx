@@ -4,7 +4,13 @@ import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Accordion,
@@ -14,6 +20,8 @@ import {
 } from "@/components/ui/accordion";
 import { Clock, MapPin, Users } from "lucide-react";
 import { collection, addDoc } from "firebase/firestore";
+import { db } from "@/firebase/FirebaseConfig";
+import { Label } from "../ui/Label";
 
 export default function PlanYourVisitPage() {
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -80,7 +88,7 @@ export default function PlanYourVisitPage() {
                         Service Times
                       </h3>
                       <p className="text-gray-600 dark:text-gray-400">
-                        Sundays at 9:00 AM and 12:00 AM
+                        Sundays at 10:00 AM and 12:00 AM
                       </p>
                     </div>
                   </div>
@@ -155,18 +163,19 @@ export default function PlanYourVisitPage() {
                       Thank you for planning your visit!
                     </strong>
                     <p className="block sm:inline">
-                      We look forward to seeing you at Grace Church.
+                      We look forward to seeing you at Tembisa Independent
+                      Baptist Church.
                     </p>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                      <label
+                      <Label
                         htmlFor="name"
                         className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                       >
                         Name
-                      </label>
+                      </Label>
                       <Input
                         id="name"
                         name="name"
@@ -175,12 +184,12 @@ export default function PlanYourVisitPage() {
                       />
                     </div>
                     <div>
-                      <label
+                      <Label
                         htmlFor="email"
                         className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                       >
                         Email
-                      </label>
+                      </Label>
                       <Input
                         id="email"
                         name="email"
@@ -190,22 +199,40 @@ export default function PlanYourVisitPage() {
                       />
                     </div>
                     <div>
-                      <label
+                      <Label
                         htmlFor="date"
                         className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                       >
                         Planned Visit Date
-                      </label>
+                      </Label>
                       <Input id="date" name="date" type="date" required />
                     </div>
 
                     <div>
-                      <label
+                      <Label
+                        htmlFor="service"
+                        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                      >
+                        Select Service
+                      </Label>
+                      <Select id="service" name="service" required>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a service" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Sunday">Sunday</SelectItem>
+                          <SelectItem value="Wednesday">Wednesday</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div>
+                      <Label
                         htmlFor="message"
                         className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                       >
                         Any questions or special needs?
-                      </label>
+                      </Label>
                       <Textarea
                         id="message"
                         name="message"

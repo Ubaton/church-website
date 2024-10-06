@@ -84,9 +84,11 @@ const Services = () => {
               various services. All are welcome to join us in worship and
               fellowship.
             </p>
-            <Button className="bg-zinc-800 text-white hover:bg-zinc-700 dark:bg-zinc-700 dark:hover:bg-zinc-600">
-              Plan Your Visit
-            </Button>
+            <Link href={"plan-your-visit"}>
+              <Button className="bg-zinc-800 text-white hover:bg-zinc-700 dark:bg-zinc-700 dark:hover:bg-zinc-600">
+                Plan Your Visit
+              </Button>
+            </Link>
           </div>
         </section>
       </main>

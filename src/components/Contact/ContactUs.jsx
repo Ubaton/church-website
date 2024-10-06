@@ -1,11 +1,47 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Phone, Mail, MapPin } from "lucide-react";
 import Link from "next/link";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "@/firebase/FirebaseConfig";
 
 const ContactUs = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError("");
+    setSuccess(false);
+
+    try {
+      await addDoc(collection(db, "contact-us"), formData);
+      setSuccess(true);
+      setFormData({ name: "", email: "", message: "" }); // Reset form
+    } catch (e) {
+      console.error("Error adding document: ", e);
+      setError("There was an error submitting your message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div>
       <main>
@@ -29,7 +65,7 @@ const ContactUs = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
                 <h2 className="text-2xl font-bold mb-6">Get in Touch</h2>
-                <form className="space-y-4">
+                <form className="space-y-4" onSubmit={handleSubmit}>
                   <div>
                     <label
                       htmlFor="name"
@@ -37,7 +73,14 @@ const ContactUs = () => {
                     >
                       Name
                     </label>
-                    <Input id="name" placeholder="Your Name" />
+                    <Input
+                      id="name"
+                      name="name"
+                      placeholder="Your Name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                    />
                   </div>
                   <div>
                     <label
@@ -48,8 +91,12 @@ const ContactUs = () => {
                     </label>
                     <Input
                       id="email"
+                      name="email"
                       type="email"
                       placeholder="your@email.com"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
                     />
                   </div>
                   <div>
@@ -59,11 +106,28 @@ const ContactUs = () => {
                     >
                       Message
                     </label>
-                    <Textarea id="message" placeholder="Your message here..." />
+                    <Textarea
+                      id="message"
+                      name="message"
+                      placeholder="Your message here..."
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
+                    />
                   </div>
-                  <Button className="w-full bg-gray-800 dark:bg-zinc-800 text-white hover:bg-gray-700 dark:hover:bg-zinc-700">
-                    Send Message
+                  <Button
+                    type="submit"
+                    className="w-full bg-gray-800 dark:bg-zinc-800 text-white hover:bg-gray-700 dark:hover:bg-zinc-700"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Sending..." : "Send Message"}
                   </Button>
+                  {success && (
+                    <div className="text-green-600 text-center">
+                      Message sent successfully!
+                    </div>
+                  )}
+                  {error && <div className="text-red-600">{error}</div>}
                 </form>
               </div>
               <div>
@@ -117,7 +181,6 @@ const ContactUs = () => {
               }
               target="_blank"
             >
-              {" "}
               <Button className="bg-gray-800 dark:bg-zinc-800 text-white hover:bg-gray-700 dark:hover:bg-zinc-700">
                 Get Directions
               </Button>
