@@ -21,7 +21,7 @@ import {
 import { Clock, MapPin, Users } from "lucide-react";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/firebase/FirebaseConfig";
-import { Label } from "../ui/Label";
+import { Label } from "@/ui/label";
 
 export default function PlanYourVisitPage() {
   const [formSubmitted, setFormSubmitted] = useState(false);
