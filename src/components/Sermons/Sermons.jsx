@@ -27,7 +27,7 @@ const sermonsData = [
 ];
 
 const SermonCard = ({ title, pastor, date }) => (
-  <div className="bg-white dark:bg-zinc-800 p-6 rounded-lg shadow-md">
+  <div className="border p-6 rounded-lg shadow-md">
     <h3 className="text-xl font-semibold mb-2 text-amber-800">{title}</h3>
     <p className="text-gray-600 dark:text-zinc-400 mb-4">{pastor}</p>
     <div className="flex items-center text-gray-600 dark:text-zinc-400 mb-4">
@@ -39,7 +39,7 @@ const SermonCard = ({ title, pastor, date }) => (
         <Play className="h-4 w-4 mr-2" />
         Listen
       </Button>
-      <Button variant="outline" size="sm">
+      <Button variant="secondary" size="sm" className="text-white">
         <Download className="h-4 w-4 mr-2" />
         Download
       </Button>
@@ -51,13 +51,13 @@ const Sermons = () => {
   return (
     <div>
       <main>
-        <section className="py-16 bg-white dark:bg-zinc-900">
+        <section className="py-16">
           <div className="container mx-auto px-4">
             <h1 className="text-4xl font-bold text-center mb-8 dark:text-white">
               Our Sermons
             </h1>
             <blockquote className="text-2xl text-center italic text-gray-700 dark:text-amber-700 max-w-3xl mx-auto mb-8">
-              "Thy word is a lamp unto my feet, and a light unto my path."
+              {"Thy word is a lamp unto my feet, and a light unto my path."}
             </blockquote>
             <p className="text-center text-gray-600 dark:text-zinc-400 mb-12">
               - Psalm 119:105 KJV
@@ -65,7 +65,7 @@ const Sermons = () => {
           </div>
         </section>
 
-        <section className="py-16 bg-gray-100 dark:bg-zinc-950">
+        <section className="py-16 border rounded-2xl  bg-popover">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {sermonsData.map((sermon) => (
@@ -75,7 +75,7 @@ const Sermons = () => {
           </div>
         </section>
 
-        <section className="py-16 bg-white dark:bg-zinc-900">
+        <section className="py-16">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold mb-8 dark:text-white">
               Grow in Your Faith
@@ -86,9 +86,7 @@ const Sermons = () => {
               the go.
             </p>
             <Link href={"/sermons/all-sermons"}>
-              <Button className="bg-gray-800 text-white hover:bg-gray-700 dark:bg-zinc-700 dark:hover:bg-zinc-600">
-                View All Sermons
-              </Button>
+              <Button className="text-white">View All Sermons</Button>
             </Link>
           </div>
         </section>

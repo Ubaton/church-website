@@ -45,7 +45,7 @@ const ContactUs = () => {
   return (
     <div>
       <main>
-        <section className="py-16 bg-white dark:bg-zinc-900">
+        <section className="py-16  dark:bg-zinc-900">
           <div className="container mx-auto px-4">
             <h1 className="text-4xl font-bold text-center mb-8 dark:text-white">
               Contact Us
@@ -166,7 +166,7 @@ const ContactUs = () => {
           </div>
         </section>
 
-        <section className="py-16 bg-white dark:bg-zinc-900">
+        <section className="py-16  dark:bg-zinc-900">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold mb-8 dark:text-white">
               Visit Us This Sunday

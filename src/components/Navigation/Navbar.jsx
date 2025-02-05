@@ -30,7 +30,7 @@ const Navbar = () => {
 
   return (
     <div className="sticky top-0 z-50">
-      <header className="bg-white/90 dark:bg-black/80 shadow-sm backdrop-blur-md transition-colors duration-300">
+      <header className="/90 dark:bg-black/80 shadow-sm backdrop-blur-md transition-colors duration-300">
         <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Link
             href="/"
@@ -73,10 +73,7 @@ const Navbar = () => {
                   </DropdownMenuItem>
                 ))}
                 <DropdownMenuItem>
-                  <Link
-                    href="/contact-us"
-                    className="text-gray-600 dark:text-gray-300"
-                  >
+                  <Link href="/contact-us" className="text-white">
                     Contact
                   </Link>
                 </DropdownMenuItem>
@@ -113,7 +110,7 @@ const Navbar = () => {
               >
                 <Link
                   href={`/${item}`}
-                  className="relative text-gray-600 hover:text-amber-700 dark:text-gray-300 dark:hover:text-white"
+                  className="relative text-[#d28143] hover:text-amber-800 dark:text-gray-300 dark:hover:text-white"
                 >
                   {item.charAt(0).toUpperCase() + item.slice(1)}
                   <span className="block h-0.5 bg-amber-700 transition-all duration-300 transform scale-x-0 hover:scale-x-100"></span>
@@ -124,7 +121,7 @@ const Navbar = () => {
               href="/contact-us"
               className="text-gray-600 hover:text-amber-700 dark:text-gray-300 dark:hover:text-white"
             >
-              <Button className=""> Contact</Button>
+              <Button className="text-white"> Contact</Button>
             </Link>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

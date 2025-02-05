@@ -21,7 +21,7 @@ import {
 import { Clock, MapPin, Users } from "lucide-react";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/firebase/FirebaseConfig";
-import { Label } from "@/ui/label";
+import { Label } from "../ui/label";
 
 export default function PlanYourVisitPage() {
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -59,7 +59,7 @@ export default function PlanYourVisitPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-zinc-900">
       <main>
-        <section className="py-16 bg-white dark:bg-zinc-800">
+        <section className="py-16  dark:bg-zinc-800">
           <div className="container mx-auto px-4">
             <h1 className="text-4xl font-bold text-center mb-8 dark:text-white">
               Plan Your Visit
@@ -262,7 +262,7 @@ export default function PlanYourVisitPage() {
           </div>
         </section>
 
-        <section className="py-16 bg-white dark:bg-zinc-800">
+        <section className="py-16  dark:bg-zinc-800">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold mb-8 dark:text-white">
               We Can't Wait to Meet You!

@@ -208,7 +208,7 @@ const HeroComponent = () => {
               transition={{ duration: 0.5, delay: 0.4 }}
             >
               <Link href="/plan-your-visit">
-                <Button className="bg-amber-800 text-white hover:bg-amber-900 transition-colors duration-300">
+                <Button className="text-white transition-colors duration-300">
                   Plan Your Visit
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -225,7 +225,7 @@ const HeroComponent = () => {
           </motion.div>
         </section>
 
-        <section className="py-8 bg-amber-100 dark:bg-zinc-800 rounded-lg shadow-md my-8">
+        <section className="py-8 border bg-popover rounded-lg shadow-md my-8">
           <div className="container mx-auto px-4 flex flex-wrap justify-around items-center">
             <div className="text-center mb-4 md:mb-0">
               <h3 className="text-2xl font-bold mb-2">Next Service In:</h3>
@@ -266,7 +266,7 @@ const HeroComponent = () => {
           </div>
         </section>
 
-        <section className="py-16 bg-white dark:bg-zinc-900 rounded-lg shadow-md my-8">
+        <section className="py-16 border rounded-lg shadow-md my-8">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-8">
               Verse of the Day
@@ -279,7 +279,7 @@ const HeroComponent = () => {
                 transition={{ duration: 0.3 }}
               >
                 <blockquote className="text-2xl text-center italic text-amber-800 max-w-3xl mx-auto">
-                  "{verse.text}"
+                  {`"${verse.text}"`}
                 </blockquote>
                 <p className="text-center mt-4 text-zinc-600 dark:text-zinc-50">
                   - {verse.reference}
@@ -289,7 +289,7 @@ const HeroComponent = () => {
           </div>
         </section>
 
-        <section className="py-16">
+        <section className="py-16 border bg-popover rounded-lg px-8">
           <div className="mx-auto">
             <h2 className="text-3xl font-bold text-center mb-12">Join Us</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -323,7 +323,7 @@ const HeroComponent = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <Card className="bg-white dark:bg-zinc-900 p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow duration-300">
+                  <Card className=" dark:bg-zinc-900 p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow duration-300">
                     <item.icon className="mx-auto h-12 w-12 text-amber-800 mb-4" />
                     <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
                     <p className="text-amber-800 mb-4">{item.description}</p>
@@ -345,7 +345,7 @@ const HeroComponent = () => {
           </div>
         </section>
 
-        <section className="py-16 bg-zinc-100 dark:bg-zinc-800 rounded-lg shadow-md my-8">
+        <section className="py-16 border rounded-lg shadow-md my-8">
           <h2 className="text-3xl font-bold text-center mb-8">
             Upcoming Events
           </h2>
@@ -387,7 +387,7 @@ const HeroComponent = () => {
           </Carousel>
         </section>
 
-        <section className="py-16 bg-amber-100 dark:bg-zinc-800 rounded-lg shadow-md my-8">
+        <section className="py-16 border bg-popover rounded-lg shadow-md my-8">
           <h2 className="text-3xl font-bold text-center mb-8">
             What Our Community Says
           </h2>
@@ -404,7 +404,7 @@ const HeroComponent = () => {
                 <CarouselItem key={index}>
                   <Card className="p-6 mx-4">
                     <blockquote className="text-lg italic mb-4">
-                      "{testimonial.text}"
+                      {`"${testimonial.text}"`}
                     </blockquote>
                     <footer>
                       <p className="font-bold">{testimonial.name}</p>
@@ -419,7 +419,7 @@ const HeroComponent = () => {
           </Carousel>
         </section>
 
-        <section className="py-16 bg-white dark:bg-zinc-900 rounded-lg shadow-md my-8">
+        <section className="py-16 border rounded-lg shadow-md my-8">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-8">
               Stay Connected
@@ -444,7 +444,7 @@ const HeroComponent = () => {
           </div>
         </section>
 
-        <section className="py-16 bg-zinc-100 dark:bg-zinc-800 rounded-lg shadow-md my-8">
+        <section className="py-16 border bg-popover rounded-lg shadow-md my-8">
           <h2 className="text-3xl font-bold text-center mb-8">
             Connect With Us
           </h2>

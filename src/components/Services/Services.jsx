@@ -9,14 +9,15 @@ const Services = () => {
   return (
     <div>
       <main>
-        <section className="py-16 bg-white dark:bg-zinc-900">
+        <section className="py-16  dark:bg-zinc-900">
           <div className="container mx-auto px-4">
             <h1 className="text-4xl font-bold text-center mb-8 dark:text-white">
               Our Services
             </h1>
             <blockquote className="text-2xl text-center italic text-amber-800 dark:text-amber-700 max-w-3xl mx-auto mb-8">
-              "Let every thing that hath breath praise the LORD. Praise ye the
-              LORD."
+              {
+                "Let every thing that hath breath praise the LORD. Praise ye the LORD."
+              }
             </blockquote>
             <p className="text-center text-zinc-600 dark:text-zinc-400 mb-12">
               - Psalm 150:6 KJV
@@ -24,10 +25,10 @@ const Services = () => {
           </div>
         </section>
 
-        <section className="py-16 bg-zinc-100 dark:bg-zinc-950">
+        <section className="py-16 border rounded-2xl bg-popover">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="bg-white dark:bg-zinc-800 p-6 rounded-lg shadow-md">
+              <div className="border p-6 rounded-lg shadow-md">
                 <Sun className="h-12 w-12 text-amber-800 dark:text-amber-700 mb-4" />
                 <h3 className="text-xl font-semibold mb-2 dark:text-white">
                   Sunday Morning Service
@@ -38,17 +39,17 @@ const Services = () => {
                 </p>
                 <Button variant="outline">Learn More</Button>
               </div>
-              <div className="bg-white dark:bg-zinc-800 p-6 rounded-lg shadow-md">
+              <div className="border p-6 rounded-lg shadow-md">
                 <Moon className="h-12 w-12 text-amber-800 dark:text-amber-700 mb-4" />
                 <h3 className="text-xl font-semibold mb-2 dark:text-white">
                   Wednesday Evening Bible Study
                 </h3>
                 <p className="text-amber-800 dark:text-amber-700 mb-4">
-                  Dive deeper into God's Word every Wednesday at 7:00 PM.
+                  Dive deeper into God&apos;s Word every Wednesday at 7:00 PM.
                 </p>
                 <Button variant="outline">Learn More</Button>
               </div>
-              <div className="bg-white dark:bg-zinc-800 p-6 rounded-lg shadow-md">
+              <div className="border p-6 rounded-lg shadow-md">
                 <Home className="h-12 w-12 text-amber-800 dark:text-amber-700 mb-4" />
                 <h3 className="text-xl font-semibold mb-2 dark:text-white">
                   Home Visit
@@ -59,10 +60,10 @@ const Services = () => {
                 </p>
                 <Button variant="outline">Learn More</Button>
               </div>
-              <div className="bg-white dark:bg-zinc-800 p-6 rounded-lg shadow-md">
+              <div className="border p-6 rounded-lg shadow-md">
                 <Book className="h-12 w-12 text-amber-800 dark:text-amber-700 mb-4" />
                 <h3 className="text-xl font-semibold mb-2 dark:text-white">
-                  Children's Ministry
+                  Children&apos;s Ministry
                 </h3>
                 <p className="text-amber-800 dark:text-amber-700 mb-4">
                   We offer age-appropriate teachings for children during Sunday
@@ -74,7 +75,7 @@ const Services = () => {
           </div>
         </section>
 
-        <section className="py-16 bg-white dark:bg-zinc-900">
+        <section className="py-16  dark:bg-zinc-900">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold mb-8 dark:text-white">
               Join Us in Worship
