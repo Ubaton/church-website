@@ -60,7 +60,7 @@ const ContactUs = () => {
           </div>
         </section>
 
-        <section className="py-16 bg-gray-100 dark:bg-zinc-950">
+        <section className="py-16 bg-popover">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
@@ -117,7 +117,7 @@ const ContactUs = () => {
                   </div>
                   <Button
                     type="submit"
-                    className="w-full bg-gray-800 dark:bg-zinc-800 text-white hover:bg-gray-700 dark:hover:bg-zinc-700"
+                    className="w-full text-white "
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? "Sending..." : "Send Message"}
@@ -181,9 +181,7 @@ const ContactUs = () => {
               }
               target="_blank"
             >
-              <Button className="bg-gray-800 dark:bg-zinc-800 text-white hover:bg-gray-700 dark:hover:bg-zinc-700">
-                Get Directions
-              </Button>
+              <Button className=" text-white">Get Directions</Button>
             </Link>
           </div>
         </section>

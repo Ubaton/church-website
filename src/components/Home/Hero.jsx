@@ -434,7 +434,7 @@ const HeroComponent = () => {
                   className="flex-grow mr-2"
                   aria-label="Email for newsletter"
                 />
-                <Button type="submit">
+                <Button type="submit" className="text-white">
                   Subscribe
                   <Mail className="ml-2 h-4 w-4" />
                 </Button>

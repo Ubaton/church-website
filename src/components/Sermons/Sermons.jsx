@@ -1,13 +1,20 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Play, Download, Calendar } from "lucide-react";
+import { Play, Download, Calendar, Pause } from "lucide-react";
 import { db } from "@/firebase/FirebaseConfig";
 import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
 
-const SermonCard = ({ title, pastor, date }) => (
+const SermonCard = ({
+  title,
+  pastor,
+  date,
+  audio_sermon,
+  onPlay,
+  isPlaying,
+}) => (
   <div className="border p-6 rounded-lg shadow-md">
     <h3 className="text-xl font-semibold mb-2 text-amber-800">{title}</h3>
     <p className="text-gray-600 dark:text-zinc-400 mb-4">{pastor}</p>
@@ -16,9 +23,13 @@ const SermonCard = ({ title, pastor, date }) => (
       <span>{date}</span>
     </div>
     <div className="flex space-x-2">
-      <Button variant="outline" size="sm">
-        <Play className="h-4 w-4 mr-2" />
-        Listen
+      <Button variant="outline" size="sm" onClick={onPlay}>
+        {isPlaying ? (
+          <Pause className="h-4 w-4 mr-2" />
+        ) : (
+          <Play className="h-4 w-4 mr-2" />
+        )}
+        {isPlaying ? "Pause" : "Listen"}
       </Button>
       <Button variant="secondary" size="sm" className="text-white">
         <Download className="h-4 w-4 mr-2" />
@@ -30,6 +41,29 @@ const SermonCard = ({ title, pastor, date }) => (
 
 const Sermons = () => {
   const [sermonsData, setSermonsData] = useState([]);
+  const [currentAudio, setCurrentAudio] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
+
+  const handlePlay = (audioUrl) => {
+    if (currentAudio === audioUrl) {
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.current.play();
+        setIsPlaying(true);
+      }
+    } else {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      audioRef.current = new Audio(audioUrl);
+      audioRef.current.play();
+      setCurrentAudio(audioUrl);
+      setIsPlaying(true);
+    }
+  };
 
   useEffect(() => {
     "use cache";
@@ -72,7 +106,12 @@ const Sermons = () => {
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {sermonsData.map((sermon) => (
-                <SermonCard key={sermon.title} {...sermon} />
+                <SermonCard
+                  key={sermon.title}
+                  {...sermon}
+                  onPlay={() => handlePlay(sermon.audio_sermon)}
+                  isPlaying={isPlaying && currentAudio === sermon.audio_sermon}
+                />
               ))}
             </div>
           </div>
