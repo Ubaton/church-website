@@ -1,30 +1,11 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Play, Download, Calendar } from "lucide-react";
-
-const sermonsData = [
-  {
-    title: "The Power of Faith",
-    pastor: "Pastor John Doe",
-    date: "June 4, 2024",
-  },
-  {
-    title: "Living with Purpose",
-    pastor: "Pastor Jane Smith",
-    date: "May 28, 2024",
-  },
-  {
-    title: "The Grace of Forgiveness",
-    pastor: "Pastor John Doe",
-    date: "May 21, 2024",
-  },
-  {
-    title: "Walking in Love",
-    pastor: "Pastor Jane Smith",
-    date: "May 14, 2024",
-  },
-];
+import { db } from "@/firebase/FirebaseConfig";
+import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
 
 const SermonCard = ({ title, pastor, date }) => (
   <div className="border p-6 rounded-lg shadow-md">
@@ -48,6 +29,28 @@ const SermonCard = ({ title, pastor, date }) => (
 );
 
 const Sermons = () => {
+  const [sermonsData, setSermonsData] = useState([]);
+
+  useEffect(() => {
+    "use cache";
+    const fetchSermons = async () => {
+      try {
+        const sermonCollection = collection(db, "sermons");
+        const q = query(sermonCollection, orderBy("date", "desc"), limit(4));
+        const sermonSnapshot = await getDocs(q);
+        const sermonList = sermonSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setSermonsData(sermonList);
+      } catch (error) {
+        console.error("Error fetching sermons:", error);
+      }
+    };
+
+    fetchSermons();
+  }, []);
+
   return (
     <div>
       <main>

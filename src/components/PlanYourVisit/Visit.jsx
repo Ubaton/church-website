@@ -65,7 +65,8 @@ export default function PlanYourVisitPage() {
               Plan Your Visit
             </h1>
             <blockquote className="text-2xl text-center italic text-gray-700 dark:text-gray-300 max-w-3xl mx-auto mb-8">
-              "For where two or three gather in my name, there am I with them."
+              &quot;For where two or three gather in my name, there am I with
+              them.&quot;
             </blockquote>
             <p className="text-center text-gray-600 dark:text-gray-400 mb-12">
               - Matthew 18:20
@@ -152,7 +153,7 @@ export default function PlanYourVisitPage() {
               </div>
               <div>
                 <h2 className="text-2xl font-bold mb-6 dark:text-white">
-                  Let Us Know You're Coming
+                  Let Us Know You&apos;re Coming
                 </h2>
                 {formSubmitted ? (
                   <div
@@ -265,12 +266,12 @@ export default function PlanYourVisitPage() {
         <section className="py-16  dark:bg-zinc-800">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold mb-8 dark:text-white">
-              We Can't Wait to Meet You!
+              We Can&apos;t Wait to Meet You!
             </h2>
             <p className="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto mb-8">
-              We're excited that you're planning to visit Grace Church. If you
-              have any questions that weren't answered here, please don't
-              hesitate to contact us.
+              We&apos;re excited that you&apos;re planning to visit Grace
+              Church. If you have any questions that weren&apos;t answered here,
+              please don&apos;t hesitate to contact us.
             </p>
             <Button asChild>
               <Link href="/contact-us">Contact Us</Link>

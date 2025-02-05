@@ -51,8 +51,8 @@ const ContactUs = () => {
               Contact Us
             </h1>
             <blockquote className="text-2xl text-center italic text-gray-700 dark:text-amber-700 max-w-3xl mx-auto mb-8">
-              "Come to me, all you who are weary and burdened, and I will give
-              you rest."
+              &quot;Come to me, all you who are weary and burdened, and I will
+              give you rest.&quot;
             </blockquote>
             <p className="text-center text-gray-600 dark:text-zinc-400 mb-12">
               - Matthew 11:28
@@ -172,8 +172,8 @@ const ContactUs = () => {
               Visit Us This Sunday
             </h2>
             <p className="text-lg text-gray-700 dark:text-white max-w-2xl mx-auto mb-8">
-              We'd love to see you at our Sunday service. Join us for worship,
-              fellowship, and a powerful message.
+              We&apos;d love to see you at our Sunday service. Join us for
+              worship, fellowship, and a powerful message.
             </p>
             <Link
               href={
