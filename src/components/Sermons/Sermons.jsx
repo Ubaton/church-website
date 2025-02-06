@@ -6,6 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Play, Download, Calendar, Pause } from "lucide-react";
 import { db } from "@/firebase/FirebaseConfig";
 import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
+import { Slider } from "@/components/ui/slider";
+
+const formatTime = (time) => {
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
+  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+};
 
 const SermonCard = ({
   title,
@@ -14,6 +21,8 @@ const SermonCard = ({
   audio_sermon,
   onPlay,
   isPlaying,
+  currentTime,
+  duration,
 }) => (
   <div className="border p-6 rounded-lg shadow-md">
     <h3 className="text-xl font-semibold mb-2 text-amber-800">{title}</h3>
@@ -22,19 +31,35 @@ const SermonCard = ({
       <Calendar className="h-5 w-5 mr-2" />
       <span>{date}</span>
     </div>
-    <div className="flex space-x-2">
-      <Button variant="outline" size="sm" onClick={onPlay}>
-        {isPlaying ? (
-          <Pause className="h-4 w-4 mr-2" />
-        ) : (
-          <Play className="h-4 w-4 mr-2" />
-        )}
-        {isPlaying ? "Pause" : "Listen"}
-      </Button>
-      <Button variant="secondary" size="sm" className="text-white">
-        <Download className="h-4 w-4 mr-2" />
-        Download
-      </Button>
+    <div className="space-y-4">
+      {isPlaying && (
+        <>
+          <Slider
+            value={[currentTime]}
+            max={duration}
+            step={1}
+            className="w-full"
+          />
+          <div className="flex justify-between text-sm text-gray-600 dark:text-zinc-400">
+            <span>{formatTime(currentTime)}</span>
+            <span>{formatTime(duration)}</span>
+          </div>
+        </>
+      )}
+      <div className="flex space-x-2">
+        <Button variant="outline" size="sm" onClick={onPlay}>
+          {isPlaying ? (
+            <Pause className="h-4 w-4 mr-2" />
+          ) : (
+            <Play className="h-4 w-4 mr-2" />
+          )}
+          {isPlaying ? "Pause" : "Listen"}
+        </Button>
+        <Button variant="secondary" size="sm" className="text-white">
+          <Download className="h-4 w-4 mr-2" />
+          Download
+        </Button>
+      </div>
     </div>
   </div>
 );
@@ -43,6 +68,8 @@ const Sermons = () => {
   const [sermonsData, setSermonsData] = useState([]);
   const [currentAudio, setCurrentAudio] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
   const audioRef = useRef(null);
 
   const handlePlay = (audioUrl) => {
@@ -60,6 +87,15 @@ const Sermons = () => {
       }
       audioRef.current = new Audio(audioUrl);
       audioRef.current.play();
+
+      audioRef.current.addEventListener("timeupdate", () => {
+        setCurrentTime(audioRef.current.currentTime);
+      });
+
+      audioRef.current.addEventListener("loadedmetadata", () => {
+        setDuration(audioRef.current.duration);
+      });
+
       setCurrentAudio(audioUrl);
       setIsPlaying(true);
     }
@@ -111,6 +147,8 @@ const Sermons = () => {
                   {...sermon}
                   onPlay={() => handlePlay(sermon.audio_sermon)}
                   isPlaying={isPlaying && currentAudio === sermon.audio_sermon}
+                  currentTime={currentTime}
+                  duration={duration}
                 />
               ))}
             </div>
