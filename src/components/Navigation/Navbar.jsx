@@ -45,7 +45,7 @@ const Navbar = () => {
             />
           </Link>
           <div className="flex items-center md:hidden">
-            <DropdownMenu>
+            <DropdownMenu className="min-w-[12rem]">
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
@@ -61,7 +61,11 @@ const Navbar = () => {
                   </motion.div>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" open={isOpen}>
+              <DropdownMenuContent
+                align="end"
+                open={isOpen}
+                className="min-w-[12rem]"
+              >
                 {["about", "services", "events", "sermons"].map((item) => (
                   <DropdownMenuItem key={item}>
                     <Link
@@ -72,9 +76,9 @@ const Navbar = () => {
                     </Link>
                   </DropdownMenuItem>
                 ))}
-                <DropdownMenuItem>
-                  <Link href="/contact-us" className="text-white">
-                    Contact
+                <DropdownMenuItem className="flex justify-center">
+                  <Link href="/contact-us">
+                    <Button className="text-white w-[11rem]">Contact</Button>
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
