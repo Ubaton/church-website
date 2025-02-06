@@ -7,6 +7,7 @@ import { Play, Download, Calendar, Pause } from "lucide-react";
 import { db } from "@/firebase/FirebaseConfig";
 import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
 import { Slider } from "@/components/ui/slider";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const formatTime = (time) => {
   const hours = Math.floor(time / 3600);
@@ -71,12 +72,28 @@ const SermonCard = ({
   </div>
 );
 
+const SkeletonSermonCard = () => (
+  <div className="border p-6 rounded-lg shadow-md">
+    <Skeleton className="h-6 w-3/4 mb-2" />
+    <Skeleton className="h-4 w-1/2 mb-4" />
+    <div className="flex items-center mb-4">
+      <Skeleton className="h-5 w-5 mr-2" />
+      <Skeleton className="h-4 w-24" />
+    </div>
+    <div className="flex space-x-2">
+      <Skeleton className="h-9 w-24" />
+      <Skeleton className="h-9 w-28" />
+    </div>
+  </div>
+);
+
 const Sermons = () => {
   const [sermonsData, setSermonsData] = useState([]);
   const [currentAudio, setCurrentAudio] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   const audioRef = useRef(null);
 
   const handlePlay = (audioUrl) => {
@@ -111,6 +128,7 @@ const Sermons = () => {
   useEffect(() => {
     "use cache";
     const fetchSermons = async () => {
+      setIsLoading(true);
       try {
         const sermonCollection = collection(db, "sermons");
         const q = query(sermonCollection, orderBy("date", "desc"), limit(4));
@@ -122,6 +140,8 @@ const Sermons = () => {
         setSermonsData(sermonList);
       } catch (error) {
         console.error("Error fetching sermons:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -148,16 +168,27 @@ const Sermons = () => {
         <section className="py-16 border rounded-2xl  bg-popover">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {sermonsData.map((sermon) => (
-                <SermonCard
-                  key={sermon.title}
-                  {...sermon}
-                  onPlay={() => handlePlay(sermon.audio_sermon)}
-                  isPlaying={isPlaying && currentAudio === sermon.audio_sermon}
-                  currentTime={currentTime}
-                  duration={duration}
-                />
-              ))}
+              {isLoading ? (
+                <>
+                  <SkeletonSermonCard />
+                  <SkeletonSermonCard />
+                  <SkeletonSermonCard />
+                  <SkeletonSermonCard />
+                </>
+              ) : (
+                sermonsData.map((sermon) => (
+                  <SermonCard
+                    key={sermon.title}
+                    {...sermon}
+                    onPlay={() => handlePlay(sermon.audio_sermon)}
+                    isPlaying={
+                      isPlaying && currentAudio === sermon.audio_sermon
+                    }
+                    currentTime={currentTime}
+                    duration={duration}
+                  />
+                ))
+              )}
             </div>
           </div>
         </section>

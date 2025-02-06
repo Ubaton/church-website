@@ -131,7 +131,7 @@ const HeroComponent = () => {
     },
     {
       title: "Bible Study",
-      time: "Wednesday 7:00 PM",
+      time: "Wednesday 6:00 PM",
       image: Church,
       description: "Dive deep into God's Word",
     },
