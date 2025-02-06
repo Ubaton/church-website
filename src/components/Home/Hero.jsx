@@ -41,7 +41,7 @@ const HeroComponent = () => {
   const [weather, setWeather] = useState({ temp: 0, condition: "sunny" });
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
-  const bibleId = "de4e12af7f28f599-02"; // Example Bible ID for King James Version
+  const bibleId = "de4e12af7f28f599-02";
 
   const verseIds = [
     "JHN.3.16",
@@ -102,9 +102,7 @@ const HeroComponent = () => {
     const timer = setInterval(() => {
       const now = new Date();
       const nextSunday = new Date(now);
-      nextSunday.setDate(now.getDate() + (7 - now.getDay())); // Calculate the next Sunday
-
-      // Set the time for the countdown to 10:00 AM on Sunday
+      nextSunday.setDate(now.getDate() + (7 - now.getDay()));
       nextSunday.setHours(10, 0, 0, 0);
 
       const diff = nextSunday.getTime() - now.getTime();
@@ -174,23 +172,26 @@ const HeroComponent = () => {
   };
 
   return (
-    <div className="container mx-auto px-4">
-      <main>
-        <section className="relative h-screen bg-cover bg-center flex items-center">
+    <div className="container mx-auto px-2 sm:px-6 lg:px-8">
+      <main className="space-y-8">
+        <section className="relative min-h-[60vh] md:h-screen bg-cover bg-center flex items-center">
           <div className="absolute inset-0">
             <Image
               src={Church}
               alt="Tembisa Independent Baptist Church"
               className="w-full h-full object-cover rounded-lg"
               priority={true}
+              sizes="100vw"
+              quality={90}
             />
+            <div className="absolute inset-0 bg-black/40 rounded-lg"></div>
           </div>
-          <div className="relative z-10 text-center">
+          <div className="relative z-10 text-center px-4 w-full">
             <motion.h1
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-4xl md:text-6xl font-bold text-white mb-4"
+              className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-4 leading-tight"
             >
               Welcome to Tembisa Independent Baptist Church
             </motion.h1>
@@ -198,7 +199,7 @@ const HeroComponent = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xl text-white mb-8"
+              className="text-lg sm:text-xl text-white mb-8 max-w-2xl mx-auto"
             >
               Join us in worship and community
             </motion.p>
@@ -206,11 +207,12 @@ const HeroComponent = () => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.4 }}
+              className="flex justify-center"
             >
               <Link href="/plan-your-visit">
-                <Button className="text-white transition-colors duration-300">
+                <Button className="text-white transition-colors duration-300 text-lg px-6 py-3">
                   Plan Your Visit
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
             </motion.div>
@@ -219,56 +221,68 @@ const HeroComponent = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+            className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden md:block"
           >
             <ChevronDown className="h-8 w-8 text-white animate-bounce" />
           </motion.div>
         </section>
 
-        <section className="py-8 border bg-popover rounded-lg shadow-md my-8">
-          <div className="container mx-auto px-4 flex flex-wrap justify-around items-center">
-            <div className="text-center mb-4 md:mb-0">
-              <h3 className="text-2xl font-bold mb-2">Next Service In:</h3>
-              <div className="flex space-x-4">
-                <div>
-                  <span className="text-3xl font-bold">{countdown.days}</span>
-                  <p>Days</p>
-                </div>
-                <div>
-                  <span className="text-3xl font-bold">{countdown.hours}</span>
-                  <p>Hours</p>
-                </div>
-                <div>
-                  <span className="text-3xl font-bold">
-                    {countdown.minutes}
-                  </span>
-                  <p>Minutes</p>
-                </div>
-                <div>
-                  <span className="text-3xl font-bold">
-                    {countdown.seconds}
-                  </span>
-                  <p>Seconds</p>
+        <section className="py-8 border bg-popover rounded-lg shadow-md">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+              <div className="text-center">
+                <h3 className="text-xl md:text-2xl font-bold mb-4">
+                  Next Service In:
+                </h3>
+                <div className="grid grid-cols-4 gap-2 md:gap-4">
+                  <div className="bg-background p-2 rounded-lg">
+                    <span className="text-xl md:text-3xl font-bold block">
+                      {countdown.days}
+                    </span>
+                    <p className="text-sm">Days</p>
+                  </div>
+                  <div className="bg-background p-2 rounded-lg">
+                    <span className="text-xl md:text-3xl font-bold block">
+                      {countdown.hours}
+                    </span>
+                    <p className="text-sm">Hours</p>
+                  </div>
+                  <div className="bg-background p-2 rounded-lg">
+                    <span className="text-xl md:text-3xl font-bold block">
+                      {countdown.minutes}
+                    </span>
+                    <p className="text-sm">Minutes</p>
+                  </div>
+                  <div className="bg-background p-2 rounded-lg">
+                    <span className="text-xl md:text-3xl font-bold block">
+                      {countdown.seconds}
+                    </span>
+                    <p className="text-sm">Seconds</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="text-center">
-              <h3 className="text-2xl font-bold mb-2">Current Weather</h3>
-              <div className="flex items-center justify-center">
-                {weather.condition === "sunny" ? (
-                  <Sun className="h-8 w-8 text-yellow-500 mr-2" />
-                ) : (
-                  <Cloud className="h-8 w-8 text-gray-500 mr-2" />
-                )}
-                <span className="text-3xl font-bold">{weather.temp}°C</span>
+              <div className="text-center">
+                <h3 className="text-xl md:text-2xl font-bold mb-4">
+                  Current Weather
+                </h3>
+                <div className="flex items-center justify-center bg-background p-4 rounded-lg">
+                  {weather.condition === "sunny" ? (
+                    <Sun className="h-8 w-8 text-yellow-500 mr-4" />
+                  ) : (
+                    <Cloud className="h-8 w-8 text-gray-500 mr-4" />
+                  )}
+                  <span className="text-2xl md:text-3xl font-bold">
+                    {weather.temp}°C
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="py-16 border rounded-lg shadow-md my-8">
+        <section className="py-12 md:py-16 border rounded-lg shadow-md">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
               Verse of the Day
             </h2>
             <AnimatePresence>
@@ -277,8 +291,9 @@ const HeroComponent = () => {
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3 }}
+                className="max-w-3xl mx-auto px-4"
               >
-                <blockquote className="text-2xl text-center italic text-amber-800 max-w-3xl mx-auto">
+                <blockquote className="text-xl md:text-2xl text-center italic text-amber-800">
                   {`"${verse.text}"`}
                 </blockquote>
                 <p className="text-center mt-4 text-zinc-600 dark:text-zinc-50">
@@ -289,10 +304,12 @@ const HeroComponent = () => {
           </div>
         </section>
 
-        <section className="py-16 border bg-popover rounded-lg px-8">
-          <div className="mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-12">Join Us</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <section className="py-12 md:py-16 border bg-popover rounded-lg">
+          <div className="container mx-auto px-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
+              Join Us
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {[
                 {
                   icon: Calendar,
@@ -323,17 +340,22 @@ const HeroComponent = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <Card className=" dark:bg-zinc-900 p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow duration-300">
-                    <item.icon className="mx-auto h-12 w-12 text-amber-800 mb-4" />
-                    <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                    <p className="text-amber-800 mb-4">{item.description}</p>
+                  <Card className="dark:bg-zinc-900 p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow duration-300 h-full flex flex-col justify-between">
+                    <div>
+                      <item.icon className="mx-auto h-12 w-12 text-amber-800 mb-4" />
+                      <h3 className="text-lg md:text-xl font-semibold mb-2">
+                        {item.title}
+                      </h3>
+                      <p className="text-amber-800 mb-4">{item.description}</p>
+                    </div>
                     <Link
                       href={item.link}
                       target={item.external ? "_blank" : "_self"}
+                      className="inline-block w-full"
                     >
                       <Button
                         variant="outline"
-                        className="hover:bg-amber-100 dark:hover:bg-zinc-800"
+                        className="w-full hover:bg-amber-100 dark:hover:bg-zinc-800"
                       >
                         {item.buttonText}
                       </Button>
@@ -345,65 +367,57 @@ const HeroComponent = () => {
           </div>
         </section>
 
-        <section className="py-16 border rounded-lg shadow-md my-8">
-          <h2 className="text-3xl font-bold text-center mb-8">
+        <section className="py-12 md:py-16 border rounded-lg shadow-md">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
             Upcoming Events
           </h2>
-          <Carousel
-            // opts={{
-            //   align: "start",
-            //   loop: true,
-            // }}
-            // plugins={[plugin.current]}
-            className="w-full max-w-5xl mx-auto"
-          >
+          <Carousel className="w-full max-w-5xl mx-auto px-4">
             <CarouselContent>
               {upcomingEvents.map((event, index) => (
-                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                  <div className="p-1">
-                    <Card className="p-4">
-                      <div className="relative aspect-square mb-4">
-                        <Image
-                          src={event.image}
-                          alt={event.title}
-                          fill
-                          className="object-cover rounded-lg"
-                        />
-                      </div>
-                      <h3 className="text-xl font-semibold mb-2">
+                <CarouselItem
+                  key={index}
+                  className="sm:basis-1/2 lg:basis-1/3 p-2"
+                >
+                  <Card className="h-full">
+                    <div className="relative pt-[100%]">
+                      <Image
+                        src={event.image}
+                        alt={event.title}
+                        fill
+                        className="object-cover rounded-t-lg"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    </div>
+                    <div className="p-4">
+                      <h3 className="text-lg md:text-xl font-semibold mb-2">
                         {event.title}
                       </h3>
                       <p className="text-amber-800 mb-2">{event.time}</p>
                       <p className="text-gray-600 dark:text-gray-300">
                         {event.description}
                       </p>
-                    </Card>
-                  </div>
+                    </div>
+                  </Card>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
+            <div className="hidden sm:block">
+              <CarouselPrevious />
+              <CarouselNext />
+            </div>
           </Carousel>
         </section>
 
-        <section className="py-16 border bg-popover rounded-lg shadow-md my-8">
-          <h2 className="text-3xl font-bold text-center mb-8">
+        <section className="py-12 md:py-16 border bg-popover rounded-lg shadow-md">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
             What Our Community Says
           </h2>
-          <Carousel
-            // opts={{
-            //   align: "center",
-            //   loop: true,
-            // }}
-            // plugins={[plugin.current]}
-            className="w-full max-w-4xl mx-auto"
-          >
+          <Carousel className="w-full max-w-4xl mx-auto px-4">
             <CarouselContent>
               {testimonials.map((testimonial, index) => (
                 <CarouselItem key={index}>
-                  <Card className="p-6 mx-4">
-                    <blockquote className="text-lg italic mb-4">
+                  <Card className="p-6 mx-2 md:mx-4">
+                    <blockquote className="text-base md:text-lg italic mb-4">
                       {`"${testimonial.text}"`}
                     </blockquote>
                     <footer>
@@ -414,61 +428,68 @@ const HeroComponent = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
+            <div className="hidden sm:block">
+              <CarouselPrevious />
+              <CarouselNext />
+            </div>
           </Carousel>
         </section>
 
-        <section className="py-16 border rounded-lg shadow-md my-8">
+        <section className="py-12 md:py-16 border rounded-lg shadow-md">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
               Stay Connected
             </h2>
             <form onSubmit={handleEmailSubmit} className="max-w-md mx-auto">
-              <div className="flex items-center">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <Input
                   type="email"
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="flex-grow mr-2"
+                  className="flex-grow"
                   aria-label="Email for newsletter"
                 />
-                <Button type="submit" className="text-white">
+                <Button type="submit" className="text-white whitespace-nowrap">
                   Subscribe
                   <Mail className="ml-2 h-4 w-4" />
                 </Button>
               </div>
-              {emailError && <p className="text-red-500 mt-2">{emailError}</p>}
+              {emailError && (
+                <p className="text-red-500 mt-2 text-center">{emailError}</p>
+              )}
             </form>
           </div>
         </section>
 
-        <section className="py-16 border bg-popover rounded-lg shadow-md my-8">
-          <h2 className="text-3xl font-bold text-center mb-8">
+        <section className="py-12 md:py-16 border bg-popover rounded-lg shadow-md">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
             Connect With Us
           </h2>
-          <div className="flex justify-center space-x-6">
+          <div className="flex justify-center space-x-8">
             <Link
               href="https://facebook.com"
               target="_blank"
               aria-label="Facebook"
+              className="hover:scale-110 transition-transform"
             >
-              <Facebook />
+              <Facebook className="w-8 h-8" />
             </Link>
             <Link
               href="https://twitter.com"
               target="_blank"
               aria-label="Twitter"
+              className="hover:scale-110 transition-transform"
             >
-              <Twitter />
+              <Twitter className="w-8 h-8" />
             </Link>
             <Link
               href="https://instagram.com"
               target="_blank"
               aria-label="Instagram"
+              className="hover:scale-110 transition-transform"
             >
-              <Instagram />
+              <Instagram className="w-8 h-8" />
             </Link>
           </div>
         </section>
