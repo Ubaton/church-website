@@ -57,7 +57,7 @@ export default function PlanYourVisitPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-zinc-900">
+    <div className="min-h-screen">
       <main>
         <section className="py-16  dark:bg-zinc-800">
           <div className="container mx-auto px-4">
@@ -74,7 +74,7 @@ export default function PlanYourVisitPage() {
           </div>
         </section>
 
-        <section className="py-16 bg-gray-100 dark:bg-zinc-950">
+        <section className="py-16 bg-popover">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
