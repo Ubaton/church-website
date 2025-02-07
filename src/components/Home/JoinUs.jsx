@@ -1,0 +1,77 @@
+import React from "react";
+import { Button } from "../ui/button";
+import Link from "next/link";
+import { Card } from "../ui/card";
+import { motion } from "framer-motion";
+import { Book, Calendar, MapPin } from "lucide-react";
+
+const JoinUs = () => {
+  return (
+    <>
+      <section className="py-12 md:py-16 border bg-popover rounded-lg">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
+            Join Us
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {[
+              {
+                icon: Calendar,
+                title: "Upcoming Events",
+                description: "Stay connected with our community events",
+                link: "/events",
+                buttonText: "View Events",
+              },
+              {
+                icon: Book,
+                title: "Latest Sermons",
+                description: "Listen to our recent messages",
+                link: "/sermons",
+                buttonText: "Listen Now",
+              },
+              {
+                icon: MapPin,
+                title: "Visit Us",
+                description: "Join us for worship this Sunday",
+                link: "https://www.bing.com/maps?osid=4b86770a-9da0-4a26-b80c-c470239a4763&cp=-26.054556~28.161725&lvl=17&pi=0&v=2&sV=2&form=S00027",
+                buttonText: "Get Directions",
+                external: true,
+              },
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <Card className="dark:bg-zinc-900 p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow duration-300 h-full flex flex-col justify-between">
+                  <div>
+                    <item.icon className="mx-auto h-12 w-12 text-amber-800 mb-4" />
+                    <h3 className="text-lg md:text-xl font-semibold mb-2">
+                      {item.title}
+                    </h3>
+                    <p className="text-amber-800 mb-4">{item.description}</p>
+                  </div>
+                  <Link
+                    href={item.link}
+                    target={item.external ? "_blank" : "_self"}
+                    className="inline-block w-full"
+                  >
+                    <Button
+                      variant="outline"
+                      className="w-full hover:bg-amber-100 dark:hover:bg-zinc-800"
+                    >
+                      {item.buttonText}
+                    </Button>
+                  </Link>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+};
+
+export default JoinUs;
