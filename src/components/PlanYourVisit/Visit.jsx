@@ -269,9 +269,10 @@ export default function PlanYourVisitPage() {
               We Can&apos;t Wait to Meet You!
             </h2>
             <p className="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto mb-8">
-              We&apos;re excited that you&apos;re planning to visit Grace
-              Church. If you have any questions that weren&apos;t answered here,
-              please don&apos;t hesitate to contact us.
+              We&apos;re excited that you&apos;re planning to visit Tembisa
+              Independent Baptist Church. If you have any questions that
+              weren&apos;t answered here, please don&apos;t hesitate to contact
+              us.
             </p>
             <Button asChild>
               <Link href="/contact-us">Contact Us</Link>
