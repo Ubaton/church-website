@@ -34,15 +34,6 @@ const UpcomingEvents = () => {
           return {
             id: doc.id,
             ...eventData,
-            // Ensure image is properly structured
-            image: eventData.image
-              ? {
-                  src: eventData.image,
-                  blurDataURL: eventData.image,
-                  width: 800,
-                  height: 600,
-                }
-              : fallbackImage,
           };
         });
         setUpcomingEvents(eventsData);
@@ -79,7 +70,7 @@ const UpcomingEvents = () => {
               <Card className="h-full">
                 <div className="relative pt-[100%]">
                   <Image
-                    src={event.image.src}
+                    src={event.imageUrl || fallbackImage}
                     alt={event.title || "Event image"}
                     fill
                     className="object-cover rounded-t-lg"
