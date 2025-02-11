@@ -33,7 +33,7 @@ const JoinUs = () => {
                 icon: MapPin,
                 title: "Visit Us",
                 description: "Join us for worship this Sunday",
-                link: "https://www.bing.com/maps?osid=4b86770a-9da0-4a26-b80c-c470239a4763&cp=-26.054556~28.161725&lvl=17&pi=0&v=2&sV=2&form=S00027",
+                link: "https://www.google.com/maps/place/Tembisa+Baptist+Church+(Independent,+KJV)/@-26.0545357,28.1618867,17z/data=!4m6!3m5!1s0x1e956ce350e7adbd:0x7ad456bdbd22eef1!8m2!3d-26.0545357!4d28.1644616!16s%2Fg%2F11gfjshvjb?hl=en-GB&entry=ttu&g_ep=EgoyMDI1MDIwNS4xIKXMDSoASAFQAw%3D%3D",
                 buttonText: "Get Directions",
                 external: true,
               },

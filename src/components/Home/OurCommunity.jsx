@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -7,25 +7,28 @@ import {
   CarouselPrevious,
 } from "../ui/carousel";
 import { Card } from "../ui/card";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/firebase/FirebaseConfig";
 
 const OurCommunity = () => {
-  const testimonials = [
-    {
-      name: "John D.",
-      text: "This church has been a blessing to my family.",
-      role: "Church Member",
-    },
-    {
-      name: "Sarah M.",
-      text: "I've grown so much in my faith here.",
-      role: "Youth Leader",
-    },
-    {
-      name: "David L.",
-      text: "The community here is truly welcoming and supportive.",
-      role: "Deacon",
-    },
-  ];
+  const [testimonials, setTestimonials] = useState([]);
+
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "testimonials"));
+        const fetchedTestimonials = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setTestimonials(fetchedTestimonials);
+      } catch (error) {
+        console.error("Error fetching testimonials:", error);
+      }
+    };
+
+    fetchTestimonials();
+  }, []);
 
   return (
     <>
@@ -35,11 +38,11 @@ const OurCommunity = () => {
         </h2>
         <Carousel className="w-full max-w-4xl mx-auto px-4">
           <CarouselContent>
-            {testimonials.map((testimonial, index) => (
-              <CarouselItem key={index}>
+            {testimonials.map((testimonial) => (
+              <CarouselItem key={testimonial.id}>
                 <Card className="p-6 mx-2 md:mx-4">
                   <blockquote className="text-base md:text-lg italic mb-4">
-                    {`"${testimonial.text}"`}
+                    {`"${testimonial.quote}"`}
                   </blockquote>
                   <footer>
                     <p className="font-bold">{testimonial.name}</p>
