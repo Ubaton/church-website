@@ -143,7 +143,7 @@ const VerseOfTheDay = () => {
                 {verse.description}
               </p>
               <blockquote className="text-xl md:text-2xl text-center italic text-amber-800">
-                "{verse.text}"
+              &quot;{verse.text}&quot;
               </blockquote>
               <p className="text-center mt-4 text-zinc-600">
                 - {verse.reference}
