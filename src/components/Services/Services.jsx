@@ -45,7 +45,7 @@ const Services = () => {
                   Wednesday Evening Bible Study
                 </h3>
                 <p className="text-amber-800 dark:text-amber-700 mb-4">
-                  Dive deeper into God&apos;s Word every Wednesday at 7:00 PM.
+                  Dive deeper into God&apos;s Word every Wednesday at 18:00 PM.
                 </p>
                 <Button variant="outline">Learn More</Button>
               </div>

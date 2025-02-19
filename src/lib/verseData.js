@@ -1,4 +1,4 @@
-// verseData.js
+
 export const dailyVerses = [
   {
     id: "JHN.3.16",

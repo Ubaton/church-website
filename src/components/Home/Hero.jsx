@@ -78,7 +78,7 @@ const HeroComponent = () => {
 
         <NextService />
 
-        <VerseOfTheDay />
+        {/* <VerseOfTheDay /> */}
 
         <JoinUs />
 

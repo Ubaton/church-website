@@ -100,7 +100,7 @@ export default function PlanYourVisitPage() {
                         Location
                       </h3>
                       <p className="text-gray-600 dark:text-gray-400">
-                        Mawwethu Street, Klipfontein View, Ext 1, 1459
+                      1145 Umkhomazi St, Klipfontein View, Lethabong, 1685
                       </p>
                     </div>
                   </div>
