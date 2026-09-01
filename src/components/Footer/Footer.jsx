@@ -89,7 +89,7 @@ const Footer = () => {
             <ul className="mt-5 space-y-4 text-sm text-muted-foreground">
               <li className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                <span>Tembisa, Gauteng, South Africa</span>
+                <span>1145 Umkhomazi St, Klipfontein View, Lethabong, 1685</span>
               </li>
               <li className="flex items-start gap-3">
                 <Clock className="mt-0.5 h-4 w-4 shrink-0 text-primary" />

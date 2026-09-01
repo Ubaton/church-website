@@ -2,7 +2,14 @@ import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Calendar, Clock, MapPin, ArrowRight } from "lucide-react";
+import {
+  Calendar,
+  Clock,
+  MapPin,
+  ArrowRight,
+  HandHeart,
+  Users,
+} from "lucide-react";
 import PageHeader from "@/components/ui/page-header";
 
 const EventCard = ({ title, date, time, location, description }) => (
@@ -31,6 +38,82 @@ const EventCard = ({ title, date, time, location, description }) => (
     >
       Learn More
       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+    </Link>
+  </Card>
+);
+
+const MISSIONS_TRIP = {
+  title: "Youth Missions Trip",
+  date: "18 September - 5 October 2026",
+  time: "3 Sundays and two full weeks",
+  location: "George (18 - 28 Sept) & The Strand (28 Sept - 5 Oct)",
+  description:
+    "We are taking 22 young people (ages 15 - 20) from the school on a missions trip to the Western Cape. The team will be involved in tract drives, door to door evangelism, children and youth outreach programmes, special music and, Lord willing, some sightseeing. Our pastor will be serving alongside the youth and preaching at various churches.",
+  involvement: [
+    "Pray with and for us, and for our transport.",
+    "Sponsor us financially, with meals or toiletries, or give directly towards accommodation at the allocated hostel.",
+    "Pray that we would be a blessing and an encouragement to everyone we meet, and that we have a wonderful time.",
+    "Pray that the Lord would speak to our young people and burden them for missions.",
+    "Pray for safety and for plenty of ministry opportunities.",
+  ],
+};
+
+const FeaturedEvent = ({ title, date, time, location, description, involvement }) => (
+  <Card className="overflow-hidden p-8 md:p-12 shadow-premium-lg">
+    <span className="eyebrow">
+      <span className="h-px w-6 bg-primary/60" />
+      Featured
+    </span>
+    <h2 className="mt-4 font-serif text-3xl md:text-4xl font-semibold text-balance">
+      {title}
+    </h2>
+
+    <div className="mt-6 grid gap-3 text-sm text-muted-foreground sm:grid-cols-3">
+      <div className="flex items-center gap-2">
+        <Calendar className="h-4 w-4 shrink-0 text-primary" />
+        <span>{date}</span>
+      </div>
+      <div className="flex items-center gap-2">
+        <Clock className="h-4 w-4 shrink-0 text-primary" />
+        <span>{time}</span>
+      </div>
+      <div className="flex items-center gap-2">
+        <MapPin className="h-4 w-4 shrink-0 text-primary" />
+        <span>{location}</span>
+      </div>
+    </div>
+
+    <div className="mt-8 grid gap-10 md:grid-cols-2">
+      <div>
+        <h3 className="flex items-center gap-2 text-lg font-semibold">
+          <Users className="h-5 w-5 text-primary" />
+          Trip details
+        </h3>
+        <p className="mt-3 text-muted-foreground leading-relaxed text-pretty">
+          {description}
+        </p>
+      </div>
+      <div>
+        <h3 className="flex items-center gap-2 text-lg font-semibold">
+          <HandHeart className="h-5 w-5 text-primary" />
+          How you can be involved
+        </h3>
+        <ul className="mt-3 space-y-2 text-muted-foreground leading-relaxed">
+          {involvement.map((item) => (
+            <li key={item} className="flex gap-3">
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+              <span className="text-pretty">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <Link href="/contact-us" className="mt-8 inline-block">
+      <Button size="lg">
+        Support the trip
+        <ArrowRight className="ml-2 h-5 w-5" />
+      </Button>
     </Link>
   </Card>
 );
@@ -83,6 +166,10 @@ const Events = () => {
         quote="For where two or three are gathered together in my name, there am I in the midst of them."
         reference="Matthew 18:20"
       />
+
+      <section className="container mx-auto px-4 pt-20 md:pt-28">
+        <FeaturedEvent {...MISSIONS_TRIP} />
+      </section>
 
       <section className="container mx-auto px-4 py-20 md:py-28">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
