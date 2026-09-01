@@ -36,11 +36,11 @@ const expectations = [
     title: "Location",
     description: "1145 Umkhomazi St, Klipfontein View, Lethabong, 1685",
   },
-  {
-    icon: Users,
-    title: "What to Wear",
-    description: "Come as you are! We have no dress code.",
-  },
+  // {
+  //   icon: Users,
+  //   title: "What to Wear",
+  //   description: "Come as you are! We have no dress code.",
+  // },
 ];
 
 const faqs = [

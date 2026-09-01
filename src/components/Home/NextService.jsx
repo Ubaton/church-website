@@ -30,33 +30,18 @@ const NextService = () => {
     }, 1000);
 
     const FALLBACK_WEATHER = { temp: 20, condition: "sunny" };
-    const apiKey = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
 
     const fetchWeather = async () => {
-      // No key configured (e.g. local dev without .env) — keep the fallback
-      // rather than firing a request that always fails.
-      if (!apiKey) {
-        setWeather(FALLBACK_WEATHER);
-        return;
-      }
       try {
-        const response = await fetch(
-          `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=Johannesburg&aqi=no`
-        );
+        const response = await fetch("/api/weather");
         if (!response.ok) {
           throw new Error(`Weather request failed: ${response.status}`);
         }
         const data = await response.json();
-        const current = data?.current;
-        if (typeof current?.temp_c !== "number") {
+        if (typeof data?.temp !== "number") {
           throw new Error("Weather response missing current conditions");
         }
-        setWeather({
-          temp: Math.round(current.temp_c),
-          condition: current.condition?.text?.toLowerCase().includes("sun")
-            ? "sunny"
-            : "cloudy",
-        });
+        setWeather({ temp: data.temp, condition: data.condition });
       } catch (error) {
         console.error("Error fetching weather:", error);
         setWeather(FALLBACK_WEATHER);
@@ -64,13 +49,11 @@ const NextService = () => {
     };
 
     fetchWeather();
-    const weatherTimer = apiKey
-      ? setInterval(fetchWeather, 30 * 60 * 1000)
-      : null;
+    const weatherTimer = setInterval(fetchWeather, 30 * 60 * 1000);
 
     return () => {
       clearInterval(timer);
-      if (weatherTimer) clearInterval(weatherTimer);
+      clearInterval(weatherTimer);
     };
   }, []);
 
