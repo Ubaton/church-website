@@ -31,7 +31,7 @@ import { db } from "../../../firebase/FirebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 
 const SkeletonCard = () => (
-  <Card className="transition-transform transform hover:scale-105">
+  <Card className="hover:shadow-premium-lg transition-shadow duration-300">
     <CardHeader>
       <Skeleton className="h-6 w-3/4 mb-2" />
       <Skeleton className="h-4 w-1/2" />
@@ -53,7 +53,7 @@ export default function AllSermons() {
   const [sermons, setSermons] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [isLoading, setIsLoading] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [isDataLoading, setIsDataLoading] = useState(true);
@@ -66,6 +66,10 @@ export default function AllSermons() {
 
   useEffect(() => {
     const fetchSermons = async () => {
+      if (!db) {
+        setIsDataLoading(false);
+        return;
+      }
       setIsDataLoading(true);
       try {
         const querySnapshot = await getDocs(collection(db, "sermons"));
@@ -134,7 +138,7 @@ export default function AllSermons() {
   const filteredSermons = sermons.filter(
     (sermon) =>
       sermon.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (selectedCategory === null || sermon.category === selectedCategory)
+      (selectedCategory === "all" || sermon.category === selectedCategory)
   );
 
   const indexOfLastSermon = currentPage * sermonsPerPage;
@@ -146,7 +150,9 @@ export default function AllSermons() {
 
   const totalPages = Math.ceil(filteredSermons.length / sermonsPerPage);
 
-  const categories = [...new Set(sermons.map((sermon) => sermon.category))];
+  const categories = [
+    ...new Set(sermons.map((sermon) => sermon.category).filter(Boolean)),
+  ];
 
   const handleListen = async (audioUrl, title) => {
     try {
@@ -237,13 +243,22 @@ export default function AllSermons() {
   };
 
   return (
-    <div className="min-h-screen bg-popover">
-      <main className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8 text-center dark:text-white">
-          All Sermons
-        </h1>
+    <div className="min-h-screen">
+      <main className="container mx-auto px-4 pt-32 pb-20 md:pt-40">
+        <div className="mx-auto max-w-2xl text-center">
+          <span className="eyebrow justify-center">
+            <span className="h-px w-6 bg-primary/60" />
+            Sermon Library
+          </span>
+          <h1 className="mt-4 font-serif text-4xl md:text-5xl font-semibold">
+            All Sermons
+          </h1>
+          <p className="mt-4 text-muted-foreground">
+            Browse and search our full archive of messages.
+          </p>
+        </div>
 
-        <div className="flex flex-col md:flex-row gap-4 mb-8">
+        <div className="mt-12 flex flex-col md:flex-row gap-4 mb-8">
           {isDataLoading ? (
             <>
               <Skeleton className="h-10 flex-1" />
@@ -269,7 +284,7 @@ export default function AllSermons() {
                     <SelectValue placeholder="All Categories" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value={null}>All Categories</SelectItem>
+                    <SelectItem value="all">All Categories</SelectItem>
                     {categories.map((category) => (
                       <SelectItem key={category} value={category}>
                         {category}

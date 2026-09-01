@@ -1,3 +1,5 @@
+"use client";
+
 import { Cloud, Sun } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
@@ -11,7 +13,6 @@ const NextService = () => {
   });
 
   useEffect(() => {
-    // Timer for countdown
     const timer = setInterval(() => {
       const now = new Date();
       const nextSunday = new Date(now);
@@ -28,14 +29,12 @@ const NextService = () => {
       });
     }, 1000);
 
-    // Fetch weather data
     const fetchWeather = async () => {
       try {
         const response = await fetch(
           `https://api.weatherapi.com/v1/current.json?key=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}&q=Johannesburg&aqi=no`
         );
         const data = await response.json();
-
         setWeather({
           temp: Math.round(data.current.temp_c),
           condition: data.current.condition.text.toLowerCase().includes("sun")
@@ -44,15 +43,11 @@ const NextService = () => {
         });
       } catch (error) {
         console.error("Error fetching weather:", error);
-        // Fallback to default values
         setWeather({ temp: 20, condition: "sunny" });
       }
     };
 
-    // Initial weather fetch
     fetchWeather();
-
-    // Fetch weather every 30 minutes
     const weatherTimer = setInterval(fetchWeather, 30 * 60 * 1000);
 
     return () => {
@@ -61,56 +56,59 @@ const NextService = () => {
     };
   }, []);
 
+  const units = [
+    { label: "Days", value: countdown.days },
+    { label: "Hours", value: countdown.hours },
+    { label: "Minutes", value: countdown.minutes },
+    { label: "Seconds", value: countdown.seconds },
+  ];
+
   return (
-    <section className="py-8 border bg-popover rounded-lg shadow-md">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          <div className="text-center">
-            <h3 className="text-xl md:text-2xl font-bold mb-4">
-              Next Service In:
-            </h3>
-            <div className="grid grid-cols-4 gap-2 md:gap-4">
-              <div className="bg-background p-2 rounded-lg">
-                <span className="text-xl md:text-3xl font-bold block">
-                  {countdown.days}
+    <section className="relative overflow-hidden rounded-3xl bg-secondary/60 border border-border/70 shadow-premium">
+      <div className="absolute inset-0 bg-grain opacity-60" />
+      <div className="relative grid gap-10 p-8 md:p-12 lg:grid-cols-[1.4fr_1fr] lg:items-center">
+        <div>
+          <span className="eyebrow">
+            <span className="h-px w-6 bg-primary/60" />
+            Next Gathering
+          </span>
+          <h3 className="mt-3 text-2xl md:text-3xl font-semibold">
+            We&apos;d love to see you this Sunday
+          </h3>
+          <div className="mt-6 grid grid-cols-4 gap-3 md:gap-4">
+            {units.map((u) => (
+              <div
+                key={u.label}
+                className="rounded-2xl bg-card border border-border/70 py-4 text-center shadow-premium"
+              >
+                <span className="block text-2xl md:text-4xl font-serif font-semibold tabular-nums text-primary">
+                  {String(u.value).padStart(2, "0")}
                 </span>
-                <p className="text-sm">Days</p>
+                <p className="mt-1 text-[0.7rem] md:text-xs uppercase tracking-widest text-muted-foreground">
+                  {u.label}
+                </p>
               </div>
-              <div className="bg-background p-2 rounded-lg">
-                <span className="text-xl md:text-3xl font-bold block">
-                  {countdown.hours}
-                </span>
-                <p className="text-sm">Hours</p>
-              </div>
-              <div className="bg-background p-2 rounded-lg">
-                <span className="text-xl md:text-3xl font-bold block">
-                  {countdown.minutes}
-                </span>
-                <p className="text-sm">Minutes</p>
-              </div>
-              <div className="bg-background p-2 rounded-lg">
-                <span className="text-xl md:text-3xl font-bold block">
-                  {countdown.seconds}
-                </span>
-                <p className="text-sm">Seconds</p>
-              </div>
-            </div>
+            ))}
           </div>
-          <div className="text-center">
-            <h3 className="text-xl md:text-2xl font-bold mb-4">
-              Current Weather
-            </h3>
-            <div className="flex items-center justify-center bg-background p-4 rounded-lg">
-              {weather.condition === "sunny" ? (
-                <Sun className="h-8 w-8 text-yellow-500 mr-4" />
-              ) : (
-                <Cloud className="h-8 w-8 text-gray-500 mr-4" />
-              )}
-              <span className="text-2xl md:text-3xl font-bold">
-                {weather.temp}°C
-              </span>
-            </div>
+        </div>
+
+        <div className="lg:border-l lg:border-border/70 lg:pl-10">
+          <p className="text-sm uppercase tracking-widest text-muted-foreground">
+            Currently in Tembisa
+          </p>
+          <div className="mt-4 flex items-center gap-4">
+            {weather.condition === "sunny" ? (
+              <Sun className="h-10 w-10 text-gold" />
+            ) : (
+              <Cloud className="h-10 w-10 text-muted-foreground" />
+            )}
+            <span className="text-4xl md:text-5xl font-serif font-semibold">
+              {weather.temp}°C
+            </span>
           </div>
+          <p className="mt-3 text-sm text-muted-foreground">
+            Service begins at 10:00 AM. Come as you are — everyone is welcome.
+          </p>
         </div>
       </div>
     </section>

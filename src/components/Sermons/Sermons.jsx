@@ -3,13 +3,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Play, Download, Calendar, Pause } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Play, Download, Calendar, Pause, ArrowRight } from "lucide-react";
 import { db } from "@/firebase/FirebaseConfig";
 import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
 import { Slider } from "@/components/ui/slider";
 import { Skeleton } from "@/components/ui/skeleton";
+import PageHeader from "@/components/ui/page-header";
 
 const formatTime = (time) => {
+  if (!time || Number.isNaN(time)) return "0:00";
   const hours = Math.floor(time / 3600);
   const minutes = Math.floor((time % 3600) / 60);
   const seconds = Math.floor(time % 60);
@@ -32,59 +35,62 @@ const SermonCard = ({
   currentTime,
   duration,
 }) => (
-  <div className="border p-6 rounded-lg shadow-md">
-    <h3 className="text-xl font-semibold mb-2 text-amber-800">{title}</h3>
-    <p className="text-gray-600 dark:text-zinc-400 mb-4">{pastor}</p>
-    <div className="flex items-center text-gray-600 dark:text-zinc-400 mb-4">
-      <Calendar className="h-5 w-5 mr-2" />
+  <Card className="flex flex-col p-6 md:p-8">
+    <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+      Message
+    </p>
+    <h3 className="mt-2 text-xl font-semibold">{title}</h3>
+    <p className="mt-1 text-muted-foreground">{pastor}</p>
+    <div className="mt-3 flex items-center gap-2 text-sm text-muted-foreground">
+      <Calendar className="h-4 w-4" />
       <span>{date}</span>
     </div>
-    <div className="space-y-4">
+
+    <div className="mt-5 space-y-4">
       {isPlaying && (
         <>
-          <Slider
-            value={[currentTime]}
-            max={duration}
-            step={1}
-            className="w-full"
-          />
-          <div className="flex justify-between text-sm text-gray-600 dark:text-zinc-400">
+          <Slider value={[currentTime]} max={duration || 100} step={1} />
+          <div className="flex justify-between text-xs text-muted-foreground tabular-nums">
             <span>{formatTime(currentTime)}</span>
             <span>{formatTime(duration)}</span>
           </div>
         </>
       )}
-      <div className="flex space-x-2">
-        <Button variant="outline" size="sm" onClick={onPlay}>
+      <div className="flex flex-wrap gap-2">
+        <Button size="sm" onClick={onPlay}>
           {isPlaying ? (
-            <Pause className="h-4 w-4 mr-2" />
+            <Pause className="mr-2 h-4 w-4" />
           ) : (
-            <Play className="h-4 w-4 mr-2" />
+            <Play className="mr-2 h-4 w-4" />
           )}
           {isPlaying ? "Pause" : "Listen"}
         </Button>
-        <Button variant="secondary" size="sm" className="text-white">
-          <Download className="h-4 w-4 mr-2" />
-          Download
-        </Button>
+        {audio_sermon && (
+          <a href={audio_sermon} download target="_blank" rel="noreferrer">
+            <Button variant="outline" size="sm">
+              <Download className="mr-2 h-4 w-4" />
+              Download
+            </Button>
+          </a>
+        )}
       </div>
     </div>
-  </div>
+  </Card>
 );
 
 const SkeletonSermonCard = () => (
-  <div className="border p-6 rounded-lg shadow-md">
-    <Skeleton className="h-6 w-3/4 mb-2" />
-    <Skeleton className="h-4 w-1/2 mb-4" />
-    <div className="flex items-center mb-4">
-      <Skeleton className="h-5 w-5 mr-2" />
+  <Card className="p-6 md:p-8">
+    <Skeleton className="mb-2 h-6 w-3/4" />
+    <Skeleton className="mb-4 h-4 w-1/2" />
+    <div className="mb-4 flex items-center">
+      <Skeleton className="mr-2 h-5 w-5" />
       <Skeleton className="h-4 w-24" />
     </div>
     <div className="flex space-x-2">
       <Skeleton className="h-9 w-24" />
       <Skeleton className="h-9 w-28" />
     </div>
-  </div>
+  </Card>
 );
 
 const Sermons = () => {
@@ -97,6 +103,7 @@ const Sermons = () => {
   const audioRef = useRef(null);
 
   const handlePlay = (audioUrl) => {
+    if (!audioUrl) return;
     if (currentAudio === audioUrl) {
       if (isPlaying) {
         audioRef.current.pause();
@@ -115,10 +122,10 @@ const Sermons = () => {
       audioRef.current.addEventListener("timeupdate", () => {
         setCurrentTime(audioRef.current.currentTime);
       });
-
       audioRef.current.addEventListener("loadedmetadata", () => {
         setDuration(audioRef.current.duration);
       });
+      audioRef.current.addEventListener("ended", () => setIsPlaying(false));
 
       setCurrentAudio(audioUrl);
       setIsPlaying(true);
@@ -126,8 +133,11 @@ const Sermons = () => {
   };
 
   useEffect(() => {
-    "use cache";
     const fetchSermons = async () => {
+      if (!db) {
+        setIsLoading(false);
+        return;
+      }
       setIsLoading(true);
       try {
         const sermonCollection = collection(db, "sermons");
@@ -149,67 +159,63 @@ const Sermons = () => {
   }, []);
 
   return (
-    <div>
-      <main>
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <h1 className="text-4xl font-bold text-center mb-8 dark:text-white">
-              Our Sermons
-            </h1>
-            <blockquote className="text-2xl text-center italic text-gray-700 dark:text-amber-700 max-w-3xl mx-auto mb-8">
-              {"Thy word is a lamp unto my feet, and a light unto my path."}
-            </blockquote>
-            <p className="text-center text-gray-600 dark:text-zinc-400 mb-12">
-              - Psalm 119:105 KJV
+    <main>
+      <PageHeader
+        eyebrow="Listen & Grow"
+        title="Our Sermons"
+        quote="Thy word is a lamp unto my feet, and a light unto my path."
+        reference="Psalm 119:105 KJV"
+      />
+
+      <section className="container mx-auto px-4 py-20 md:py-28">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {isLoading ? (
+            <>
+              <SkeletonSermonCard />
+              <SkeletonSermonCard />
+              <SkeletonSermonCard />
+              <SkeletonSermonCard />
+            </>
+          ) : sermonsData.length === 0 ? (
+            <p className="col-span-full text-center text-muted-foreground">
+              Sermons will appear here soon.
             </p>
-          </div>
-        </section>
+          ) : (
+            sermonsData.map((sermon) => (
+              <SermonCard
+                key={sermon.id || sermon.title}
+                {...sermon}
+                onPlay={() => handlePlay(sermon.audio_sermon)}
+                isPlaying={isPlaying && currentAudio === sermon.audio_sermon}
+                currentTime={currentTime}
+                duration={duration}
+              />
+            ))
+          )}
+        </div>
+      </section>
 
-        <section className="py-16 border rounded-2xl  bg-popover">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {isLoading ? (
-                <>
-                  <SkeletonSermonCard />
-                  <SkeletonSermonCard />
-                  <SkeletonSermonCard />
-                  <SkeletonSermonCard />
-                </>
-              ) : (
-                sermonsData.map((sermon) => (
-                  <SermonCard
-                    key={sermon.title}
-                    {...sermon}
-                    onPlay={() => handlePlay(sermon.audio_sermon)}
-                    isPlaying={
-                      isPlaying && currentAudio === sermon.audio_sermon
-                    }
-                    currentTime={currentTime}
-                    duration={duration}
-                  />
-                ))
-              )}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold mb-8 dark:text-white">
-              Grow in Your Faith
+      <section className="container mx-auto px-4 pb-24">
+        <div className="relative overflow-hidden rounded-3xl bg-primary px-6 py-16 text-center text-primary-foreground shadow-premium-lg md:px-16">
+          <div className="absolute inset-0 bg-grain opacity-30" />
+          <div className="relative">
+            <h2 className="font-serif text-3xl md:text-4xl font-semibold text-balance">
+              Grow in your faith
             </h2>
-            <p className="text-lg text-amber-800 max-w-2xl mx-auto mb-8">
-              Our sermons are designed to inspire, challenge, and encourage you
-              in your spiritual journey. Listen online or download to listen on
-              the go.
+            <p className="mx-auto mt-4 max-w-2xl text-primary-foreground/85 text-pretty">
+              Our messages are designed to inspire, challenge, and encourage you
+              on your spiritual journey. Listen online or download for later.
             </p>
-            <Link href={"/sermons/all-sermons"}>
-              <Button className="text-white">View All Sermons</Button>
+            <Link href="/sermons/all-sermons" className="mt-8 inline-block">
+              <Button variant="gold" size="lg">
+                View All Sermons
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
             </Link>
           </div>
-        </section>
-      </main>
-    </div>
+        </div>
+      </section>
+    </main>
   );
 };
 

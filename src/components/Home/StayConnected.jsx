@@ -1,4 +1,6 @@
-import { Mail } from "lucide-react";
+"use client";
+
+import { Mail, Check } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -6,6 +8,7 @@ import { Input } from "../ui/input";
 const StayConnected = () => {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
   const handleEmailSubmit = (e) => {
     e.preventDefault();
@@ -14,39 +17,61 @@ const StayConnected = () => {
       setEmailError("Please enter a valid email address");
     } else {
       setEmailError("");
-      console.log("Email submitted:", email);
+      setSubmitted(true);
       setEmail("");
     }
   };
+
   return (
-    <>
-      <section className="py-12 md:py-16 border rounded-lg shadow-md">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
-            Stay Connected
-          </h2>
-          <form onSubmit={handleEmailSubmit} className="max-w-md mx-auto">
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="flex-grow"
-                aria-label="Email for newsletter"
-              />
-              <Button type="submit" className="text-white whitespace-nowrap">
-                Subscribe
-                <Mail className="ml-2 h-4 w-4" />
-              </Button>
-            </div>
-            {emailError && (
-              <p className="text-red-500 mt-2 text-center">{emailError}</p>
-            )}
+    <section className="relative overflow-hidden rounded-3xl bg-primary text-primary-foreground shadow-premium-lg">
+      <div className="absolute inset-0 bg-grain opacity-30" />
+      <div className="relative px-6 py-14 md:px-16 md:py-20 text-center">
+        <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground/80">
+          <span className="h-px w-6 bg-primary-foreground/50" />
+          Stay Connected
+          <span className="h-px w-6 bg-primary-foreground/50" />
+        </span>
+        <h2 className="mt-4 font-serif text-3xl md:text-4xl font-semibold text-balance">
+          Weekly encouragement, straight to your inbox
+        </h2>
+        <p className="mx-auto mt-4 max-w-xl text-primary-foreground/85 text-pretty">
+          Subscribe for service updates, upcoming events, and reflections from
+          the Word — no spam, just what matters.
+        </p>
+
+        {submitted ? (
+          <div className="mx-auto mt-8 inline-flex items-center gap-2 rounded-full bg-primary-foreground/15 px-6 py-3 font-medium">
+            <Check className="h-5 w-5" />
+            Thank you — you&apos;re on the list!
+          </div>
+        ) : (
+          <form
+            onSubmit={handleEmailSubmit}
+            className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row"
+          >
+            <Input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="flex-grow border-transparent bg-primary-foreground text-foreground placeholder:text-muted-foreground"
+              aria-label="Email for newsletter"
+            />
+            <Button
+              type="submit"
+              variant="gold"
+              className="whitespace-nowrap"
+            >
+              Subscribe
+              <Mail className="ml-2 h-4 w-4" />
+            </Button>
           </form>
-        </div>
-      </section>
-    </>
+        )}
+        {emailError && (
+          <p className="mt-3 text-sm text-primary-foreground">{emailError}</p>
+        )}
+      </div>
+    </section>
   );
 };
 

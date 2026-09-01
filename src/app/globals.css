@@ -2,76 +2,78 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
+/*
+  Premium warm-amber design system for Tembisa Independent Baptist Church.
+  Palette keeps the church's warm identity (amber / gold / espresso) but is
+  tuned for a refined, editorial, "premium" feel: ivory grounds, deep espresso
+  ink, restrained gold accents, generous rhythm.
+*/
 
 :root {
-  --background: 26 100% 90%;
-  --foreground: 26 5% 5%;
-  --card: 26 50% 90%;
-  --card-foreground: 26 5% 10%;
-  --popover: 26 100% 95%;
-  --popover-foreground: 26 100% 0%;
-  --primary: 26 61.4% 54.3%;
-  --primary-foreground: 0, 0%, 0%;
-  --secondary: 26 30% 70%;
-  --secondary-foreground: 0 0% 0%;
-  --muted: 64 30% 85%;
-  --muted-foreground: 26 5% 35%;
-  --accent: 64 30% 80%;
-  --accent-foreground: 26 5% 10%;
-  --destructive: 0 100% 30%;
-  --destructive-foreground: 26 5% 90%;
-  --border: 26 30% 50%;
-  --input: 26 30% 18%;
-  --ring: 26 88.7% 45.3%;
-  --radius: 0.8rem;
-  --sidebar-background: 26, 100%, 86%;
-  --sidebar-foreground: 26, 5%, 5%;
-  --sidebar-primary: 26, 61%, 49%;
-  --sidebar-primary-foreground: 0 0% 0%;
-  --sidebar-accent: 64, 30%, 76%;
-  --sidebar-accent-foreground: 0 0% 0%;
-  --sidebar-border: 26, 30%, 48%;
-  --sidebar-ring: 16, 98%, 45%;
+  --background: 38 40% 97%;
+  --foreground: 25 30% 12%;
+  --card: 40 33% 99%;
+  --card-foreground: 25 30% 12%;
+  --popover: 40 33% 99%;
+  --popover-foreground: 25 30% 12%;
+  --primary: 30 63% 47%;
+  --primary-foreground: 40 50% 98%;
+  --secondary: 32 30% 91%;
+  --secondary-foreground: 25 30% 18%;
+  --muted: 36 26% 93%;
+  --muted-foreground: 28 12% 42%;
+  --accent: 40 46% 88%;
+  --accent-foreground: 25 35% 18%;
+  --gold: 38 68% 52%;
+  --gold-foreground: 25 40% 12%;
+  --destructive: 0 72% 42%;
+  --destructive-foreground: 40 50% 98%;
+  --border: 32 24% 86%;
+  --input: 32 24% 86%;
+  --ring: 30 63% 47%;
+  --radius: 0.75rem;
+
+  --sidebar-background: 38 40% 95%;
+  --sidebar-foreground: 25 30% 12%;
+  --sidebar-primary: 30 63% 47%;
+  --sidebar-primary-foreground: 40 50% 98%;
+  --sidebar-accent: 40 46% 86%;
+  --sidebar-accent-foreground: 25 35% 18%;
+  --sidebar-border: 32 24% 84%;
+  --sidebar-ring: 30 63% 47%;
 }
 
 .dark {
-  --background: 26 50% 5%;
-  --foreground: 26 5% 90%;
-  --card: 26 50% 0%;
-  --card-foreground: 26 5% 90%;
-  --popover: 26 50% 5%;
-  --popover-foreground: 26 5% 90%;
-  --primary: 26 61.4% 54.3%;
-  --primary-foreground: 0, 0%, 0%;
-  --secondary: 26 30% 10%;
-  --secondary-foreground: 0 0% 100%;
-  --muted: 64 30% 15%;
-  --muted-foreground: 26 5% 60%;
-  --accent: 64 30% 15%;
-  --accent-foreground: 26 5% 90%;
-  --destructive: 0 100% 30%;
-  --destructive-foreground: 26 5% 90%;
-  --border: 26 30% 18%;
-  --input: 26 30% 18%;
-  --ring: 26 88.7% 45.3%;
-  --radius: 0.8rem;
-  --sidebar-background: 26, 50%, 7%;
-  --sidebar-foreground: 26, 5%, 99%;
-  --sidebar-primary: 26, 61%, 43%;
-  --sidebar-primary-foreground: 0, 0%, 0%;
-  --sidebar-accent: 64, 30%, 13%;
-  --sidebar-accent-foreground: 0 0% 100%;
-  --sidebar-border: 26, 30%, 17%;
-  --sidebar-ring: 16, 98%, 45%;
+  --background: 26 24% 8%;
+  --foreground: 36 30% 92%;
+  --card: 26 22% 11%;
+  --card-foreground: 36 30% 92%;
+  --popover: 26 24% 10%;
+  --popover-foreground: 36 30% 92%;
+  --primary: 34 68% 55%;
+  --primary-foreground: 26 30% 10%;
+  --secondary: 26 18% 16%;
+  --secondary-foreground: 36 30% 92%;
+  --muted: 26 15% 17%;
+  --muted-foreground: 34 14% 66%;
+  --accent: 30 24% 20%;
+  --accent-foreground: 36 30% 92%;
+  --gold: 38 72% 58%;
+  --gold-foreground: 26 30% 10%;
+  --destructive: 0 62% 45%;
+  --destructive-foreground: 36 30% 92%;
+  --border: 30 16% 20%;
+  --input: 30 16% 22%;
+  --ring: 34 68% 55%;
+
+  --sidebar-background: 26 24% 9%;
+  --sidebar-foreground: 36 30% 92%;
+  --sidebar-primary: 34 68% 55%;
+  --sidebar-primary-foreground: 26 30% 10%;
+  --sidebar-accent: 30 24% 18%;
+  --sidebar-accent-foreground: 36 30% 92%;
+  --sidebar-border: 30 16% 18%;
+  --sidebar-ring: 34 68% 55%;
 }
 
 @layer base {
@@ -79,6 +81,44 @@ body {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "liga" 1, "calt" 1;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-serif tracking-tight;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  /* Small uppercase label used above section headings */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary;
+  }
+  /* Refined, warm layered shadow for premium cards */
+  .shadow-premium {
+    box-shadow:
+      0 1px 2px hsl(25 30% 12% / 0.04),
+      0 8px 24px -12px hsl(25 30% 12% / 0.12);
+  }
+  .shadow-premium-lg {
+    box-shadow:
+      0 1px 2px hsl(25 30% 12% / 0.05),
+      0 24px 48px -20px hsl(25 30% 12% / 0.22);
+  }
+  .bg-grain {
+    background-image: radial-gradient(
+      hsl(var(--foreground) / 0.035) 0.5px,
+      transparent 0.5px
+    );
+    background-size: 14px 14px;
   }
 }

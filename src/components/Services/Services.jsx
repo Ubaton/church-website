@@ -1,97 +1,96 @@
 import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Sun, Moon, Music, Book, Home } from "lucide-react";
-import Image from "next/image";
-import ManParying from "../../../public/images/Man.jpeg";
+import { Card } from "@/components/ui/card";
+import { Sun, Moon, Book, Home, ArrowRight } from "lucide-react";
+import PageHeader from "@/components/ui/page-header";
+
+const services = [
+  {
+    icon: Sun,
+    title: "Sunday Morning Service",
+    time: "Sundays · 10:00 AM",
+    description:
+      "Join us every Sunday for worship, prayer, and the faithful teaching of God's Word.",
+  },
+  {
+    icon: Moon,
+    title: "Wednesday Bible Study",
+    time: "Wednesdays · 18:00",
+    description:
+      "Dive deeper into Scripture midweek as we study God's Word together in fellowship.",
+  },
+  {
+    icon: Home,
+    title: "Home Visits",
+    time: "First Friday · 15:00",
+    description:
+      "Experience the power of praise and personal prayer through our monthly home visits.",
+  },
+  {
+    icon: Book,
+    title: "Children's Ministry",
+    time: "During Sunday Service",
+    description:
+      "Age-appropriate teaching that helps children know and love the Lord from an early age.",
+  },
+];
 
 const Services = () => {
   return (
-    <div>
-      <main>
-        <section className="py-16  dark:bg-zinc-900">
-          <div className="container mx-auto px-4">
-            <h1 className="text-4xl font-bold text-center mb-8 dark:text-white">
-              Our Services
-            </h1>
-            <blockquote className="text-2xl text-center italic text-amber-800 dark:text-amber-700 max-w-3xl mx-auto mb-8">
-              {
-                "Let every thing that hath breath praise the LORD. Praise ye the LORD."
-              }
-            </blockquote>
-            <p className="text-center text-zinc-600 dark:text-zinc-400 mb-12">
-              - Psalm 150:6 KJV
-            </p>
-          </div>
-        </section>
+    <main>
+      <PageHeader
+        eyebrow="Gather With Us"
+        title="Our Services"
+        quote="Let every thing that hath breath praise the LORD. Praise ye the LORD."
+        reference="Psalm 150:6 KJV"
+      />
 
-        <section className="py-16 border rounded-2xl bg-popover">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="border p-6 rounded-lg shadow-md">
-                <Sun className="h-12 w-12 text-amber-800 dark:text-amber-700 mb-4" />
-                <h3 className="text-xl font-semibold mb-2 dark:text-white">
-                  Sunday Morning Service
-                </h3>
-                <p className="text-amber-800 dark:text-amber-700 mb-4">
-                  Join us every Sunday at 10:00 AM for worship, prayer, and
-                  teaching.
-                </p>
-                <Button variant="outline">Learn More</Button>
+      <section className="container mx-auto px-4 py-20 md:py-28">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {services.map((service) => (
+            <Card
+              key={service.title}
+              className="group flex gap-6 p-8 hover:shadow-premium-lg hover:-translate-y-1 transition-all duration-300"
+            >
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                <service.icon className="h-7 w-7" />
               </div>
-              <div className="border p-6 rounded-lg shadow-md">
-                <Moon className="h-12 w-12 text-amber-800 dark:text-amber-700 mb-4" />
-                <h3 className="text-xl font-semibold mb-2 dark:text-white">
-                  Wednesday Evening Bible Study
-                </h3>
-                <p className="text-amber-800 dark:text-amber-700 mb-4">
-                  Dive deeper into God&apos;s Word every Wednesday at 18:00 PM.
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+                  {service.time}
                 </p>
-                <Button variant="outline">Learn More</Button>
-              </div>
-              <div className="border p-6 rounded-lg shadow-md">
-                <Home className="h-12 w-12 text-amber-800 dark:text-amber-700 mb-4" />
-                <h3 className="text-xl font-semibold mb-2 dark:text-white">
-                  Home Visit
-                </h3>
-                <p className="text-amber-800 dark:text-amber-700 mb-4">
-                  Experience the power of praise every first Friday of the month
-                  at 15:00 PM.
+                <h3 className="mt-1 text-xl font-semibold">{service.title}</h3>
+                <p className="mt-2 text-muted-foreground leading-relaxed">
+                  {service.description}
                 </p>
-                <Button variant="outline">Learn More</Button>
               </div>
-              <div className="border p-6 rounded-lg shadow-md">
-                <Book className="h-12 w-12 text-amber-800 dark:text-amber-700 mb-4" />
-                <h3 className="text-xl font-semibold mb-2 dark:text-white">
-                  Children&apos;s Ministry
-                </h3>
-                <p className="text-amber-800 dark:text-amber-700 mb-4">
-                  We offer age-appropriate teachings for children during Sunday
-                  services.
-                </p>
-                <Button variant="outline">Learn More</Button>
-              </div>
-            </div>
-          </div>
-        </section>
+            </Card>
+          ))}
+        </div>
+      </section>
 
-        <section className="py-16  dark:bg-zinc-900">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold mb-8 dark:text-white">
-              Join Us in Worship
+      <section className="container mx-auto px-4 pb-24">
+        <div className="relative overflow-hidden rounded-3xl bg-primary px-6 py-16 text-center text-primary-foreground shadow-premium-lg md:px-16">
+          <div className="absolute inset-0 bg-grain opacity-30" />
+          <div className="relative">
+            <h2 className="font-serif text-3xl md:text-4xl font-semibold text-balance">
+              Join us in worship
             </h2>
-            <p className="text-lg text-amber-800 dark:text-amber-700 max-w-2xl mx-auto mb-8">
-              We invite you to experience the love and grace of God through our
-              various services. All are welcome to join us in worship and
-              fellowship.
+            <p className="mx-auto mt-4 max-w-2xl text-primary-foreground/85 text-pretty">
+              Experience the love and grace of God through our various services.
+              All are welcome to worship and grow with us.
             </p>
-            <Link href={"plan-your-visit"}>
-              <Button className="text-white">Plan Your Visit</Button>
+            <Link href="/plan-your-visit" className="mt-8 inline-block">
+              <Button variant="gold" size="lg">
+                Plan Your Visit
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
             </Link>
           </div>
-        </section>
-      </main>
-    </div>
+        </div>
+      </section>
+    </main>
   );
 };
 

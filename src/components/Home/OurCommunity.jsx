@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import {
   Carousel,
@@ -9,12 +11,15 @@ import {
 import { Card } from "../ui/card";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase/FirebaseConfig";
+import { Quote } from "lucide-react";
+import SectionHeading from "../ui/section-heading";
 
 const OurCommunity = () => {
   const [testimonials, setTestimonials] = useState([]);
 
   useEffect(() => {
     const fetchTestimonials = async () => {
+      if (!db) return;
       try {
         const querySnapshot = await getDocs(collection(db, "testimonials"));
         const fetchedTestimonials = querySnapshot.docs.map((doc) => ({
@@ -30,35 +35,38 @@ const OurCommunity = () => {
     fetchTestimonials();
   }, []);
 
+  if (testimonials.length === 0) return null;
+
   return (
-    <>
-      <section className="py-12 md:py-16 border bg-popover rounded-lg shadow-md">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
-          What Our Community Says
-        </h2>
-        <Carousel className="w-full max-w-4xl mx-auto px-4">
-          <CarouselContent>
-            {testimonials.map((testimonial) => (
-              <CarouselItem key={testimonial.id}>
-                <Card className="p-6 mx-2 md:mx-4">
-                  <blockquote className="text-base md:text-lg italic mb-4">
-                    {`"${testimonial.quote}"`}
-                  </blockquote>
-                  <footer>
-                    <p className="font-bold">{testimonial.name}</p>
-                    <p className="text-amber-800">{testimonial.role}</p>
-                  </footer>
-                </Card>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <div className="hidden sm:block">
-            <CarouselPrevious />
-            <CarouselNext />
-          </div>
-        </Carousel>
-      </section>
-    </>
+    <section>
+      <SectionHeading
+        eyebrow="Our Family"
+        title="What our community says"
+        subtitle="Real stories from the people who call Tembisa Independent Baptist Church home."
+      />
+      <Carousel className="mx-auto mt-14 w-full max-w-4xl px-4">
+        <CarouselContent>
+          {testimonials.map((testimonial) => (
+            <CarouselItem key={testimonial.id}>
+              <Card className="mx-2 p-8 md:p-12 text-center">
+                <Quote className="mx-auto h-10 w-10 text-primary/30" />
+                <blockquote className="mt-6 font-serif text-xl md:text-2xl italic leading-relaxed text-balance">
+                  {`"${testimonial.quote}"`}
+                </blockquote>
+                <footer className="mt-6">
+                  <p className="font-semibold">{testimonial.name}</p>
+                  <p className="text-sm text-primary">{testimonial.role}</p>
+                </footer>
+              </Card>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <div className="hidden sm:block">
+          <CarouselPrevious />
+          <CarouselNext />
+        </div>
+      </Carousel>
+    </section>
   );
 };
 

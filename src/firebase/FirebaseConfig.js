@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getStorage } from "firebase/storage"; // Changed to import getStorage instead of storage directly
-import { getAuth } from "firebase/auth"; // Import getAuth for authentication
-import { getFirestore } from "firebase/firestore"; // Import getFirestore for Firestore
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -14,9 +14,21 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const storage = getStorage(app); // Initialize storage
-const auth = getAuth(app); // Initialize authentication
-const db = getFirestore(app); // Initialize Firestore
-export { app, storage, auth, db }; // Export app, storage, auth, and db
+// Guard initialization so a missing API key (e.g. during static prerender in an
+// environment without env vars) cannot throw at module load. In real deploys the
+// NEXT_PUBLIC_* keys are present and Firebase initializes fully.
+const isConfigured = Boolean(firebaseConfig.apiKey);
+
+let app = null;
+let storage = null;
+let auth = null;
+let db = null;
+
+if (isConfigured) {
+  app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+  storage = getStorage(app);
+  auth = getAuth(app);
+  db = getFirestore(app);
+}
+
+export { app, storage, auth, db, isConfigured };
