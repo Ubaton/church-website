@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 import Church from "../../../public/images/TIBChurch.jpg";
 
-import { ArrowRight, ChevronDown, MapPin, Clock } from "lucide-react";
+import { ArrowRight, ChevronDown, MapPin, Clock, BookOpen } from "lucide-react";
 import Image from "next/image";
 
 import { motion } from "framer-motion";
@@ -112,6 +112,10 @@ const HeroComponent = () => {
                 <span className="inline-flex items-center gap-2">
                   <Clock className="h-4 w-4 text-amber-300" />
                   Sundays at 10:00 AM
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <BookOpen className="h-4 w-4 text-amber-300" />
+                  Wednesday Bible Study · 18:00
                 </span>
                 <span className="inline-flex items-center gap-2">
                   <MapPin className="h-4 w-4 text-amber-300" />
