@@ -24,12 +24,17 @@ const NAV_LINKS = [
   { label: "Sermons", href: "/sermons" },
 ];
 
-const ThemeToggle = () => {
+const ThemeToggle = ({ className }) => {
   const { setTheme, theme } = useTheme();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label="Toggle theme">
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label="Toggle theme"
+          className={className}
+        >
           <motion.div
             initial={false}
             animate={{
@@ -92,6 +97,10 @@ const Navbar = () => {
     setIsOpen(false);
   }, [pathname]);
 
+  // Transparent navbar sits on top of the dark homepage hero: force
+  // light-on-dark text there so the links stay legible in every theme.
+  const overHero = pathname === "/" && !scrolled;
+
   if (!mounted) {
     return <div className="h-[76px]" aria-hidden />;
   }
@@ -116,7 +125,7 @@ const Navbar = () => {
               priority
               className={cn(
                 "h-14 w-auto object-contain",
-                theme === "light" ? "invert" : ""
+                theme === "light" && !overHero ? "invert" : ""
               )}
             />
           </Link>
@@ -131,7 +140,14 @@ const Navbar = () => {
                   href={item.href}
                   className={cn(
                     "group relative px-4 py-2 text-sm font-medium transition-colors",
-                    active
+                    overHero
+                      ? cn(
+                          "[text-shadow:0_1px_12px_rgb(0_0_0/0.6)]",
+                          active
+                            ? "text-white"
+                            : "text-white/80 hover:text-white"
+                        )
+                      : active
                       ? "text-primary"
                       : "text-foreground/70 hover:text-foreground"
                   )}
@@ -139,15 +155,25 @@ const Navbar = () => {
                   {item.label}
                   <span
                     className={cn(
-                      "absolute left-4 right-4 -bottom-0.5 h-px origin-left bg-primary transition-transform duration-300",
+                      "absolute left-4 right-4 -bottom-0.5 h-px origin-left transition-transform duration-300",
+                      overHero ? "bg-white" : "bg-primary",
                       active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
                     )}
                   />
                 </Link>
               );
             })}
-            <div className="mx-2 h-6 w-px bg-border" />
-            <ThemeToggle />
+            <div
+              className={cn(
+                "mx-2 h-6 w-px",
+                overHero ? "bg-white/30" : "bg-border"
+              )}
+            />
+            <ThemeToggle
+              className={
+                overHero ? "text-white hover:bg-white/10 hover:text-white" : ""
+              }
+            />
             <Link href="/contact-us" className="ml-1">
               <Button size="sm">Contact</Button>
             </Link>
@@ -155,11 +181,18 @@ const Navbar = () => {
 
           {/* Mobile */}
           <div className="flex items-center gap-1 md:hidden">
-            <ThemeToggle />
+            <ThemeToggle
+              className={
+                overHero ? "text-white hover:bg-white/10 hover:text-white" : ""
+              }
+            />
             <Button
               variant="ghost"
               size="icon"
               aria-label="Menu"
+              className={
+                overHero ? "text-white hover:bg-white/10 hover:text-white" : ""
+              }
               onClick={() => setIsOpen((v) => !v)}
             >
               <motion.div animate={{ rotate: isOpen ? 90 : 0 }} transition={{ duration: 0.3 }}>
