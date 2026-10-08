@@ -43,7 +43,7 @@ const Footer = () => {
               />
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted-foreground">
-              An independent, KJV Baptist church in Tembisa — worshiping God,
+              An independent, KJV Baptist church in Tembisa, worshiping God,
               growing in the Word, and serving our community with the love of
               Christ.
             </p>

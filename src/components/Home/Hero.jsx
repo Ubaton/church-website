@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 import Church from "../../../public/images/TIBChurch.jpg";
 
-import { ArrowRight, ChevronDown, MapPin, Clock, BookOpen } from "lucide-react";
+import { ArrowRight, MapPin, Clock, BookOpen } from "lucide-react";
 import Image from "next/image";
 
 import { motion } from "framer-motion";
@@ -20,7 +20,7 @@ import StayConnected from "./StayConnected";
 import ConnectWithUs from "./ConnectWithUs";
 
 const fadeUp = {
-  initial: { opacity: 0, y: 24 },
+  initial: { opacity: 0, y: 12 },
   animate: { opacity: 1, y: 0 },
 };
 
@@ -28,30 +28,29 @@ const HeroComponent = () => {
   return (
     <>
       {/* Full-bleed hero */}
-      <section className="relative -mt-[76px] min-h-[92vh] flex items-center overflow-hidden">
+      <section className="relative -mt-[76px] min-h-[88svh] flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src={Church}
-            alt="Tembisa Independent Baptist Church"
+            alt="A cross overlooking mountains at sunrise"
             className="w-full h-full object-cover"
             priority
             sizes="100vw"
             quality={90}
             placeholder="blur"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/75" />
-          <div className="absolute inset-0 bg-grain opacity-40 mix-blend-overlay" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/50 to-black/80" />
         </div>
 
         <div className="relative z-10 w-full">
-          <div className="container mx-auto px-4 pt-24 pb-16">
-            <div className="max-w-3xl">
+          <div className="container mx-auto px-6 pt-36 pb-20 md:pt-44 md:pb-28">
+            <div className="mx-auto max-w-4xl text-center">
               <motion.span
                 variants={fadeUp}
                 initial="initial"
                 animate="animate"
-                transition={{ duration: 0.6 }}
-                className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-amber-100 backdrop-blur-sm"
+                transition={{ duration: 0.35 }}
+                className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.16em] text-white/80"
               >
                 Independent · KJV · Tembisa
               </motion.span>
@@ -60,8 +59,8 @@ const HeroComponent = () => {
                 variants={fadeUp}
                 initial="initial"
                 animate="animate"
-                transition={{ duration: 0.7, delay: 0.1 }}
-                className="mt-6 font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white leading-[1.05] text-balance"
+                transition={{ duration: 0.4, delay: 0.1 }}
+                className="mt-6 text-[2.5rem] sm:text-5xl md:text-6xl lg:text-[4.75rem] font-semibold text-white leading-[1.06] text-balance"
               >
                 A place to belong, believe & be transformed
               </motion.h1>
@@ -70,8 +69,8 @@ const HeroComponent = () => {
                 variants={fadeUp}
                 initial="initial"
                 animate="animate"
-                transition={{ duration: 0.7, delay: 0.25 }}
-                className="mt-6 max-w-xl text-lg md:text-xl text-white/80 leading-relaxed text-pretty"
+                transition={{ duration: 0.4, delay: 0.1 }}
+                className="mx-auto mt-6 max-w-2xl text-base md:text-xl text-white/85 leading-relaxed text-pretty"
               >
                 Join our family at Tembisa Independent Baptist Church as we
                 worship together, grow in the Word, and serve our community with
@@ -82,11 +81,11 @@ const HeroComponent = () => {
                 variants={fadeUp}
                 initial="initial"
                 animate="animate"
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="mt-9 flex flex-col sm:flex-row gap-4"
+                transition={{ duration: 0.35, delay: 0.15 }}
+                className="mt-9 flex flex-col sm:flex-row justify-center gap-3"
               >
                 <Link href="/plan-your-visit">
-                  <Button size="lg" className="w-full sm:w-auto">
+                  <Button variant="gold" size="lg" className="w-full sm:w-auto">
                     Plan Your Visit
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
@@ -106,8 +105,8 @@ const HeroComponent = () => {
                 variants={fadeUp}
                 initial="initial"
                 animate="animate"
-                transition={{ duration: 0.6, delay: 0.55 }}
-                className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-white/75"
+                transition={{ duration: 0.35, delay: 0.2 }}
+                className="mt-12 flex flex-wrap justify-center gap-x-6 gap-y-3 border-t border-white/15 pt-6 text-xs md:text-sm text-white/80"
               >
                 <span className="inline-flex items-center gap-2">
                   <Clock className="h-4 w-4 text-amber-300" />
@@ -115,7 +114,7 @@ const HeroComponent = () => {
                 </span>
                 <span className="inline-flex items-center gap-2">
                   <BookOpen className="h-4 w-4 text-amber-300" />
-                  Wednesday Bible Study · 18:00
+                  Wednesday Bible Study · 6:30 PM
                 </span>
                 <span className="inline-flex items-center gap-2">
                   <MapPin className="h-4 w-4 text-amber-300" />
@@ -125,19 +124,10 @@ const HeroComponent = () => {
             </div>
           </div>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.9 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:block"
-        >
-          <ChevronDown className="h-7 w-7 text-white/70 animate-bounce" />
-        </motion.div>
       </section>
 
       {/* Content sections */}
-      <div className="container mx-auto px-4 space-y-20 md:space-y-28 py-20 md:py-28">
+      <div className="container mx-auto px-6 space-y-20 md:space-y-28 py-16 md:py-24">
         <NextService />
         <VerseOfTheDay />
         <JoinUs />
@@ -152,7 +142,7 @@ const HeroComponent = () => {
 
 const Hero = () => {
   return (
-    <Suspense fallback={<div className="min-h-[92vh]" />}>
+    <Suspense fallback={<div className="min-h-[88svh]" />}>
       <HeroComponent />
     </Suspense>
   );

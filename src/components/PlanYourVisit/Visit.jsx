@@ -46,11 +46,11 @@ const expectations = [
 const faqs = [
   {
     q: "Is there parking available?",
-    a: "Yes, we have ample parking available in our church lot, free of charge.",
+    a: "Yes, we have free parking available in our church.",
   },
   {
     q: "Do you have programs for children?",
-    a: "We offer Sunday School for children ages 3-12 during our 12:00 PM service. Nursery care is available for infants and toddlers during both services.",
+    a: "We offer Sunday School for children during our Sunday services.",
   },
   {
     q: "How long are your services?",

@@ -36,13 +36,13 @@ const StayConnected = () => {
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-primary-foreground/85 text-pretty">
           Subscribe for service updates, upcoming events, and reflections from
-          the Word — no spam, just what matters.
+          the Word. No spam, just what matters.
         </p>
 
         {submitted ? (
           <div className="mx-auto mt-8 inline-flex items-center gap-2 rounded-full bg-primary-foreground/15 px-6 py-3 font-medium">
             <Check className="h-5 w-5" />
-            Thank you — you&apos;re on the list!
+            Thank you! You&apos;re on the list!
           </div>
         ) : (
           <form

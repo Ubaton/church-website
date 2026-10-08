@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { Button } from "../ui/button";
 import Link from "next/link";
 import { Card } from "../ui/card";
 import { motion } from "framer-motion";
@@ -13,7 +12,7 @@ const items = [
     icon: Calendar,
     title: "Upcoming Events",
     description:
-      "From fellowship dinners to outreach — stay connected with everything happening in our community.",
+      "From fellowship dinners to outreach, stay connected with everything happening in our community.",
     link: "/events",
     buttonText: "View Events",
   },
@@ -48,14 +47,14 @@ const JoinUs = () => {
         {items.map((item, index) => (
           <motion.div
             key={index}
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
+            transition={{ duration: 0.25, delay: index * 0.04 }}
           >
-            <Card className="group h-full flex flex-col p-8 hover:shadow-premium-lg hover:-translate-y-1 transition-all duration-300">
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                <item.icon className="h-7 w-7" />
+            <Card className="group h-full flex flex-col p-6 md:p-8">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                <item.icon className="h-6 w-6" aria-hidden="true" />
               </div>
               <h3 className="mt-6 text-xl font-semibold">{item.title}</h3>
               <p className="mt-3 flex-1 text-muted-foreground leading-relaxed">
@@ -64,7 +63,7 @@ const JoinUs = () => {
               <Link
                 href={item.link}
                 target={item.external ? "_blank" : "_self"}
-                className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary"
+                className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-lg text-sm font-semibold text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 {item.buttonText}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

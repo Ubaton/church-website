@@ -1,7 +1,7 @@
 // Curated Verse-of-the-Day rotation. References are human-readable so they can
 // be requested directly from bible-api.com (free, no API key) in the KJV
 // translation. KJV text is public domain and fixed, so the selection below is
-// what makes the verse "today's" — the text itself is always fetched in KJV.
+// what makes the verse "today's"; the text itself is always fetched in KJV.
 
 export const dailyVerses = [
   { reference: "John 3:16", theme: "God's Love For the World" },

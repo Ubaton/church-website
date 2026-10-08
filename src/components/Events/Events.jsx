@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -9,6 +10,8 @@ import {
   ArrowRight,
   HandHeart,
   Users,
+  FileText,
+  ExternalLink,
 } from "lucide-react";
 import PageHeader from "@/components/ui/page-header";
 
@@ -58,7 +61,14 @@ const MISSIONS_TRIP = {
   ],
 };
 
-const FeaturedEvent = ({ title, date, time, location, description, involvement }) => (
+const FeaturedEvent = ({
+  title,
+  date,
+  time,
+  location,
+  description,
+  involvement,
+}) => (
   <Card className="overflow-hidden p-8 md:p-12 shadow-premium-lg">
     <span className="eyebrow">
       <span className="h-px w-6 bg-primary/60" />
@@ -118,6 +128,65 @@ const FeaturedEvent = ({ title, date, time, location, description, involvement }
   </Card>
 );
 
+const MinistryUpdate = () => (
+  <Card className="mt-5 grid grid-cols-[100px_minmax(0,1fr)] items-center gap-5 bg-secondary/40 p-5 sm:grid-cols-[180px_minmax(0,1fr)] sm:p-6 lg:grid-cols-[250px_minmax(0,1fr)_auto] lg:gap-8">
+    <a
+      href="/documents/ministry-update.pdf"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Preview Ministry Update PDF (opens in a new tab)"
+      className="group relative block aspect-square overflow-hidden rounded-2xl border border-border/60 bg-card p-3 shadow-sm transition-shadow duration-150 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+    >
+      <Image
+        src="/documents/ministry-update-preview.png"
+        alt="First page of the Ministry Update document"
+        fill
+        sizes="(min-width: 1024px) 250px, (min-width: 640px) 180px, 100px"
+        className="object-contain p-3"
+      />
+      <span
+        className="absolute bottom-2 right-2 rounded-full bg-background/95 p-2 text-primary shadow-sm"
+        aria-hidden="true"
+      >
+        <ExternalLink className="h-3.5 w-3.5" />
+      </span>
+    </a>
+
+    <div className="min-w-0">
+      <span className="eyebrow gap-1.5">
+        <FileText className="h-4 w-4 shrink-0" aria-hidden="true" />
+        Trip update
+      </span>
+      <h3 className="mt-2 text-xl font-semibold sm:text-2xl">
+        Ministry Update
+      </h3>
+      <p className="mt-2 text-xs text-muted-foreground sm:text-sm">
+        <time dateTime="2026-10-02">2 October 2026</time> · 2 pages · PDF
+      </p>
+      <p className="mt-3 hidden max-w-xl text-sm leading-relaxed text-muted-foreground sm:block">
+        Catch up with our youth missions trip. Open the full update to read both
+        pages.
+      </p>
+    </div>
+
+    <div className="col-span-2 sm:col-start-2 sm:col-span-1 lg:col-start-3 lg:row-start-1">
+      <Button asChild size="lg" className="w-full sm:w-auto">
+        <a
+          href="/documents/ministry-update.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View Ministry Update
+          <ExternalLink className="ml-2 h-4 w-4" aria-hidden="true" />
+        </a>
+      </Button>
+      <p className="mt-2 text-xs text-muted-foreground">
+        Opens a PDF in a new tab.
+      </p>
+    </div>
+  </Card>
+);
+
 const EVENTS_DATA = [
   {
     id: 1,
@@ -169,6 +238,7 @@ const Events = () => {
 
       <section className="container mx-auto px-4 pt-20 md:pt-28">
         <FeaturedEvent {...MISSIONS_TRIP} />
+        <MinistryUpdate />
       </section>
 
       <section className="container mx-auto px-4 py-20 md:py-28">

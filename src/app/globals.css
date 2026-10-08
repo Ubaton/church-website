@@ -2,34 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-  Premium warm-amber design system for Tembisa Independent Baptist Church.
-  Palette keeps the church's warm identity (amber / gold / espresso) but is
-  tuned for a refined, editorial, "premium" feel: ivory grounds, deep espresso
-  ink, restrained gold accents, generous rhythm.
-*/
+/* Neutral surfaces, clear typography, and the church's amber accent. */
 
 :root {
-  --background: 38 40% 97%;
-  --foreground: 25 30% 12%;
-  --card: 40 33% 99%;
-  --card-foreground: 25 30% 12%;
-  --popover: 40 33% 99%;
-  --popover-foreground: 25 30% 12%;
-  --primary: 30 63% 47%;
-  --primary-foreground: 40 50% 98%;
-  --secondary: 32 30% 91%;
-  --secondary-foreground: 25 30% 18%;
-  --muted: 36 26% 93%;
-  --muted-foreground: 28 12% 42%;
-  --accent: 40 46% 88%;
-  --accent-foreground: 25 35% 18%;
+  --background: 0 0% 98%;
+  --foreground: 240 6% 12%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 6% 12%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 6% 12%;
+  --primary: 30 75% 32%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 240 5% 94%;
+  --secondary-foreground: 240 6% 18%;
+  --muted: 240 5% 94%;
+  --muted-foreground: 240 3% 42%;
+  --accent: 240 5% 92%;
+  --accent-foreground: 240 6% 18%;
   --gold: 38 68% 52%;
   --gold-foreground: 25 40% 12%;
   --destructive: 0 72% 42%;
   --destructive-foreground: 40 50% 98%;
-  --border: 32 24% 86%;
-  --input: 32 24% 86%;
+  --border: 240 5% 88%;
+  --input: 240 5% 85%;
   --ring: 30 63% 47%;
   --radius: 0.75rem;
 
@@ -82,13 +77,18 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
-    font-feature-settings: "liga" 1, "calt" 1;
+    font-feature-settings:
+      "liga" 1,
+      "calt" 1;
+  }
+  html {
+    scroll-padding-top: 96px;
   }
   h1,
   h2,
   h3,
   h4 {
-    @apply font-serif tracking-tight;
+    @apply font-sans tracking-tight !important;
   }
 }
 
@@ -101,7 +101,7 @@
   }
   /* Small uppercase label used above section headings */
   .eyebrow {
-    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary;
+    @apply inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.12em] text-primary;
   }
   /* Refined, warm layered shadow for premium cards */
   .shadow-premium {
@@ -120,5 +120,16 @@
       transparent 0.5px
     );
     background-size: 14px 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

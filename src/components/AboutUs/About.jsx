@@ -42,7 +42,7 @@ const About = () => {
           <p className="text-lg md:text-xl leading-relaxed text-muted-foreground text-pretty">
             Tembisa Independent Baptist Church is a vibrant community of
             believers dedicated to spreading God&apos;s love and grace. Founded
-            in 2007, we have been serving our community for over 18 years —
+            in 2007, we have been serving our community for over 18 years,
             providing a place of worship, fellowship, and spiritual growth for
             all who seek it.
           </p>

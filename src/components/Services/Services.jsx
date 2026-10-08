@@ -2,39 +2,16 @@ import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Sun, Moon, Book, Home, ArrowRight } from "lucide-react";
+import { Sun, Moon, Book, Megaphone, ArrowRight } from "lucide-react";
 import PageHeader from "@/components/ui/page-header";
+import { services } from "@/lib/services";
 
-const services = [
-  {
-    icon: Sun,
-    title: "Sunday Morning Service",
-    time: "Sundays · 10:00 AM",
-    description:
-      "Join us every Sunday for worship, prayer, and the faithful teaching of God's Word.",
-  },
-  {
-    icon: Moon,
-    title: "Wednesday Bible Study",
-    time: "Wednesdays · 18:00",
-    description:
-      "Dive deeper into Scripture midweek as we study God's Word together in fellowship.",
-  },
-  {
-    icon: Home,
-    title: "Home Visits",
-    time: "First Friday · 15:00",
-    description:
-      "Experience the power of praise and personal prayer through our monthly home visits.",
-  },
-  {
-    icon: Book,
-    title: "Children's Ministry",
-    time: "During Sunday Service",
-    description:
-      "Age-appropriate teaching that helps children know and love the Lord from an early age.",
-  },
-];
+const serviceIcons = {
+  "sunday-service": Sun,
+  "bible-study": Moon,
+  evangelism: Megaphone,
+  awana: Book,
+};
 
 const Services = () => {
   return (
@@ -46,27 +23,32 @@ const Services = () => {
         reference="Psalm 150:6 KJV"
       />
 
-      <section className="container mx-auto px-4 py-20 md:py-28">
+      <section className="container mx-auto px-6 py-12 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {services.map((service) => (
-            <Card
-              key={service.title}
-              className="group flex gap-6 p-8 hover:shadow-premium-lg hover:-translate-y-1 transition-all duration-300"
-            >
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                <service.icon className="h-7 w-7" />
-              </div>
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-                  {service.time}
-                </p>
-                <h3 className="mt-1 text-xl font-semibold">{service.title}</h3>
-                <p className="mt-2 text-muted-foreground leading-relaxed">
-                  {service.description}
-                </p>
-              </div>
-            </Card>
-          ))}
+          {services.map((service) => {
+            const Icon = serviceIcons[service.id];
+            return (
+              <Card
+                key={service.title}
+                className="flex flex-col gap-5 p-6 sm:flex-row sm:p-8"
+              >
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                  <Icon className="h-6 w-6" aria-hidden="true" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-primary">
+                    {service.time}
+                  </p>
+                  <h3 className="mt-2 text-xl font-semibold">
+                    {service.title}
+                  </h3>
+                  <p className="mt-2 text-muted-foreground leading-relaxed">
+                    {service.description}
+                  </p>
+                </div>
+              </Card>
+            );
+          })}
         </div>
       </section>
 

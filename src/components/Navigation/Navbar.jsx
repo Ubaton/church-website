@@ -1,18 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sun, Moon, Laptop, Menu, X } from "lucide-react";
+import { Sun, Moon, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import TIBCLogo from "../../../public/assets/TIBC.png";
 import { cn } from "@/lib/utils";
@@ -25,64 +19,50 @@ const NAV_LINKS = [
 ];
 
 const ThemeToggle = ({ className }) => {
-  const { setTheme, theme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+  const label = isDark ? "Switch to light mode" : "Switch to dark mode";
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          aria-label="Toggle theme"
-          className={className}
-        >
-          <motion.div
-            initial={false}
-            animate={{
-              rotate: theme === "dark" ? -90 : 0,
-              scale: theme === "dark" ? 0 : 1,
-            }}
-            transition={{ duration: 0.3 }}
-          >
-            <Sun className="h-5 w-5" />
-          </motion.div>
-          <motion.div
-            initial={false}
-            animate={{
-              rotate: theme === "dark" ? 0 : 90,
-              scale: theme === "dark" ? 1 : 0,
-            }}
-            transition={{ duration: 0.3 }}
-            className="absolute"
-          >
-            <Moon className="h-5 w-5" />
-          </motion.div>
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          <Sun className="mr-2 h-4 w-4" />
-          <span>Light</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          <Moon className="mr-2 h-4 w-4" />
-          <span>Dark</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          <Laptop className="mr-2 h-4 w-4" />
-          <span>System</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Button
+      variant="ghost"
+      size="icon"
+      aria-label={label}
+      title={label}
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      className={cn("relative", className)}
+    >
+      <motion.div
+        initial={false}
+        animate={{
+          rotate: isDark ? -30 : 0,
+          opacity: isDark ? 0 : 1,
+        }}
+        transition={{ duration: 0.18 }}
+      >
+        <Sun className="h-5 w-5" aria-hidden="true" />
+      </motion.div>
+      <motion.div
+        initial={false}
+        animate={{
+          rotate: isDark ? 0 : 30,
+          opacity: isDark ? 1 : 0,
+        }}
+        transition={{ duration: 0.18 }}
+        className="absolute"
+      >
+        <Moon className="h-5 w-5" aria-hidden="true" />
+      </motion.div>
+    </Button>
   );
 };
 
 const Navbar = () => {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const menuButtonRef = useRef(null);
 
   useEffect(() => {
     setMounted(true);
@@ -97,6 +77,18 @@ const Navbar = () => {
     setIsOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [isOpen]);
+
   // Transparent navbar sits on top of the dark homepage hero: force
   // light-on-dark text there so the links stay legible in every theme.
   const overHero = pathname === "/" && !scrolled;
@@ -109,10 +101,10 @@ const Navbar = () => {
     <div className="sticky top-0 z-50">
       <header
         className={cn(
-          "transition-all duration-300",
-          scrolled
+          "transition-[background-color,border-color] duration-200",
+          !overHero
             ? "bg-background/80 backdrop-blur-xl border-b border-border/70 shadow-premium"
-            : "bg-transparent"
+            : "bg-black/10",
         )}
       >
         <nav className="container mx-auto px-4 h-[76px] flex justify-between items-center">
@@ -125,7 +117,7 @@ const Navbar = () => {
               priority
               className={cn(
                 "h-14 w-auto object-contain",
-                theme === "light" && !overHero ? "invert" : ""
+                resolvedTheme === "light" && !overHero ? "invert" : "",
               )}
             />
           </Link>
@@ -138,18 +130,19 @@ const Navbar = () => {
                 <Link
                   key={item.href}
                   href={item.href}
+                  aria-current={active ? "page" : undefined}
                   className={cn(
-                    "group relative px-4 py-2 text-sm font-medium transition-colors",
+                    "group relative rounded-full px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                     overHero
                       ? cn(
                           "[text-shadow:0_1px_12px_rgb(0_0_0/0.6)]",
                           active
                             ? "text-white"
-                            : "text-white/80 hover:text-white"
+                            : "text-white/80 hover:text-white",
                         )
                       : active
-                      ? "text-primary"
-                      : "text-foreground/70 hover:text-foreground"
+                        ? "text-primary"
+                        : "text-foreground/70 hover:text-foreground",
                   )}
                 >
                   {item.label}
@@ -157,7 +150,9 @@ const Navbar = () => {
                     className={cn(
                       "absolute left-4 right-4 -bottom-0.5 h-px origin-left transition-transform duration-300",
                       overHero ? "bg-white" : "bg-primary",
-                      active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                      active
+                        ? "scale-x-100"
+                        : "scale-x-0 group-hover:scale-x-100",
                     )}
                   />
                 </Link>
@@ -166,7 +161,7 @@ const Navbar = () => {
             <div
               className={cn(
                 "mx-2 h-6 w-px",
-                overHero ? "bg-white/30" : "bg-border"
+                overHero ? "bg-white/30" : "bg-border",
               )}
             />
             <ThemeToggle
@@ -189,13 +184,19 @@ const Navbar = () => {
             <Button
               variant="ghost"
               size="icon"
-              aria-label="Menu"
+              aria-label={isOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isOpen}
+              aria-controls="mobile-navigation"
+              ref={menuButtonRef}
               className={
                 overHero ? "text-white hover:bg-white/10 hover:text-white" : ""
               }
               onClick={() => setIsOpen((v) => !v)}
             >
-              <motion.div animate={{ rotate: isOpen ? 90 : 0 }} transition={{ duration: 0.3 }}>
+              <motion.div
+                animate={{ rotate: isOpen ? 90 : 0 }}
+                transition={{ duration: 0.18 }}
+              >
                 {isOpen ? <X /> : <Menu />}
               </motion.div>
             </Button>
@@ -208,7 +209,8 @@ const Navbar = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
+              transition={{ duration: 0.18, ease: "easeInOut" }}
+              id="mobile-navigation"
               className="md:hidden overflow-hidden border-t border-border/70 bg-background/95 backdrop-blur-xl"
             >
               <div className="container mx-auto px-4 py-4 flex flex-col gap-1">
@@ -216,6 +218,7 @@ const Navbar = () => {
                   <Link
                     key={item.href}
                     href={item.href}
+                    aria-current={pathname === item.href ? "page" : undefined}
                     className="rounded-xl px-4 py-3 text-base font-medium text-foreground/80 hover:bg-accent hover:text-foreground transition-colors"
                   >
                     {item.label}

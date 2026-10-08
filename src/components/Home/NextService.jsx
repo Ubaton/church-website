@@ -2,32 +2,16 @@
 
 import { Cloud, Sun } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import { CHURCH_TIME_ZONE, getNextGathering } from "@/lib/nextGathering";
 
 const NextService = () => {
   const [weather, setWeather] = useState({ temp: 0, condition: "sunny" });
-  const [countdown, setCountdown] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
+  const [nextGathering, setNextGathering] = useState(null);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      const now = new Date();
-      const nextSunday = new Date(now);
-      nextSunday.setDate(now.getDate() + (7 - now.getDay()));
-      nextSunday.setHours(10, 0, 0, 0);
-
-      const diff = nextSunday.getTime() - now.getTime();
-
-      setCountdown({
-        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((diff % (1000 * 60)) / 1000),
-      });
-    }, 1000);
+    const updateGathering = () => setNextGathering(getNextGathering());
+    updateGathering();
+    const timer = setInterval(updateGathering, 1000);
 
     const FALLBACK_WEATHER = { temp: 20, condition: "sunny" };
 
@@ -57,35 +41,53 @@ const NextService = () => {
     };
   }, []);
 
+  const countdown = nextGathering?.countdown;
   const units = [
-    { label: "Days", value: countdown.days },
-    { label: "Hours", value: countdown.hours },
-    { label: "Minutes", value: countdown.minutes },
-    { label: "Seconds", value: countdown.seconds },
+    { label: "Days", value: countdown?.days },
+    { label: "Hours", value: countdown?.hours },
+    { label: "Minutes", value: countdown?.minutes },
+    { label: "Seconds", value: countdown?.seconds },
   ];
+  const dateLabel =
+    nextGathering &&
+    new Intl.DateTimeFormat("en-ZA", {
+      timeZone: CHURCH_TIME_ZONE,
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }).format(nextGathering.startsAt);
 
   return (
     <section className="relative overflow-hidden rounded-3xl bg-secondary/60 border border-border/70 shadow-premium">
-      <div className="absolute inset-0 bg-grain opacity-60" />
-      <div className="relative grid gap-10 p-8 md:p-12 lg:grid-cols-[1.4fr_1fr] lg:items-center">
+      <div className="relative grid gap-8 p-6 md:p-10 lg:grid-cols-[1.4fr_1fr] lg:items-center">
         <div>
           <span className="eyebrow">
             <span className="h-px w-6 bg-primary/60" />
             Next Gathering
           </span>
-          <h3 className="mt-3 text-2xl md:text-3xl font-semibold">
-            We&apos;d love to see you this Sunday
-          </h3>
-          <div className="mt-6 grid grid-cols-4 gap-3 md:gap-4">
+          <h2 className="mt-3 text-2xl md:text-3xl font-semibold">
+            {nextGathering?.service.title || "Finding the next gathering"}
+          </h2>
+          {nextGathering && (
+            <p className="mt-3 text-sm text-muted-foreground">
+              <time dateTime={nextGathering.startsAt.toISOString()}>
+                {dateLabel}
+              </time>
+              {" · "}
+              {nextGathering.service.time.split(" · ")[1]} (SAST)
+            </p>
+          )}
+          <div className="mt-6 grid grid-cols-4 gap-2 md:gap-4">
             {units.map((u) => (
               <div
                 key={u.label}
-                className="rounded-2xl bg-card border border-border/70 py-4 text-center shadow-premium"
+                className="rounded-2xl bg-card py-4 text-center"
               >
-                <span className="block text-2xl md:text-4xl font-serif font-semibold tabular-nums text-primary">
-                  {String(u.value).padStart(2, "0")}
+                <span className="block text-2xl md:text-4xl font-sans font-semibold tabular-nums text-foreground">
+                  {u.value == null ? ".." : String(u.value).padStart(2, "0")}
                 </span>
-                <p className="mt-1 text-[0.7rem] md:text-xs uppercase tracking-widest text-muted-foreground">
+                <p className="mt-1 text-[0.625rem] md:text-xs text-muted-foreground">
                   {u.label}
                 </p>
               </div>
@@ -103,12 +105,15 @@ const NextService = () => {
             ) : (
               <Cloud className="h-10 w-10 text-muted-foreground" />
             )}
-            <span className="text-4xl md:text-5xl font-serif font-semibold">
+            <span className="text-4xl md:text-5xl font-sans font-semibold">
               {weather.temp}°C
             </span>
           </div>
           <p className="mt-3 text-sm text-muted-foreground">
-            Service begins at 10:00 AM. Come as you are — everyone is welcome.
+            {nextGathering
+              ? `${nextGathering.service.title} begins at ${nextGathering.service.time.split(" · ")[1]}. `
+              : ""}
+            Come as you are. Everyone is welcome.
           </p>
         </div>
       </div>

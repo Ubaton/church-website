@@ -1,21 +1,14 @@
 import React from "react";
 
 /**
- * Premium inner-page header band: eyebrow, serif title, optional scripture
- * quote + reference, sitting on a subtle warm gradient with grain.
+ * Inner-page title and optional scripture on a quiet neutral surface.
  */
 const PageHeader = ({ eyebrow, title, quote, reference, children }) => {
   return (
-    <section className="relative overflow-hidden border-b border-border/70 bg-gradient-to-b from-secondary/60 to-background">
-      <div className="absolute inset-0 bg-grain opacity-50" />
-      <div className="relative container mx-auto px-4 pt-32 pb-16 md:pt-40 md:pb-20 text-center">
-        {eyebrow && (
-          <span className="eyebrow justify-center">
-            <span className="h-px w-6 bg-primary/60" />
-            {eyebrow}
-          </span>
-        )}
-        <h1 className="mx-auto mt-4 max-w-4xl font-serif text-4xl md:text-5xl lg:text-6xl font-semibold leading-[1.08] text-balance">
+    <section className="border-b border-border/50 bg-secondary/40">
+      <div className="container mx-auto px-6 py-16 md:py-24 text-center">
+        {eyebrow && <span className="eyebrow justify-center">{eyebrow}</span>}
+        <h1 className="mx-auto mt-4 max-w-4xl font-sans text-4xl md:text-5xl lg:text-6xl font-semibold leading-[1.08] text-balance">
           {title}
         </h1>
         {quote && (
